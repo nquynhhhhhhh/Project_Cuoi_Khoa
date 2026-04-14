@@ -73,6 +73,15 @@ public class WebUI {
         }
     }
 
+    public static void switchToFrame(String nameOrld, String idFrame, String text){
+        // Switch vào iframe Description
+        DriverManager.getDriver().switchTo().frame(nameOrld);
+        // Sau đó mới sendKeys được
+        DriverManager.getDriver().findElement(By.id(idFrame)).sendKeys(text);
+        // Quay lại main page
+        DriverManager.getDriver().switchTo().defaultContent();
+    }
+
     //Wait for Element
     public static void waitForElementVisible(By by) {
         try {

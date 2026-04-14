@@ -15,6 +15,5 @@ public class DashboardTest extends BaseTest{
 
         dashboardPage = loginPage.loginCRM();
         dashboardPage.verifyInvoicesAwaitingPayment("1 / 3");
-
     }
 }

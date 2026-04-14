@@ -24,7 +24,7 @@ public class LoginTest extends BaseTest {
         CaptureHelper.startRecord("loginFailWithEmailInvalid");
         loginPage = new LoginPage();
         loginPage.loginCRM("admin99@example.com","123456");
-        loginPage.verifyLoginFail("Invalid email or password");
+        loginPage.verifyLoginFail("Invalid email");
     }
 
     @Test(priority = 3)
@@ -32,7 +32,7 @@ public class LoginTest extends BaseTest {
         CaptureHelper.startRecord("loginFailWithPassInvalid");
         loginPage = new LoginPage();
         loginPage.loginCRM("admin@example.com","112233");
-        loginPage.verifyLoginFail();
+        loginPage.verifyLoginFail("Invalid password");
     }
 
 }

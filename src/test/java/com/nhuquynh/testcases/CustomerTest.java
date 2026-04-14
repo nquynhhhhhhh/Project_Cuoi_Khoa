@@ -19,7 +19,7 @@ public class CustomerTest extends BaseTest {
         dashboardPage = loginPage.loginCRM();
         customerPage = dashboardPage.clickMenuCustomer();
 
-        String customerName = "Công ty YHL 20260314";
+        String customerName = "Công ty YHL 20260414";
         customerPage.verifyNavigateToCustomerPage();
         int berofeTotal = customerPage.getCustomersTotal();
         customerPage.clickButtonAddNewCustomer();
@@ -38,7 +38,7 @@ public class CustomerTest extends BaseTest {
         dashboardPage = loginPage.loginCRM();
         customerPage = dashboardPage.clickMenuCustomer();
 
-        String customerName = "Công ty YHL 11:02";
+        String customerName = "Công ty YHL 20260414";
 
         customerPage.verifyNavigateToCustomerPage();
         int berofeTotal = customerPage.getCustomersTotal();
