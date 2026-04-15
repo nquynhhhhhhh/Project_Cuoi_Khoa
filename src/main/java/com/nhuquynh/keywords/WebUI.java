@@ -309,7 +309,7 @@ public class WebUI {
     }
 
     @Step("Set text: {1} on element {0}") //0 là by, 1 là value
-    public static void setText(By by, Object value) {
+    public static void setText(By by, String value) {
         waitForElementVisible(by);
         sleep(STEP_TIME);
         getWebElement(by).sendKeys(value);
