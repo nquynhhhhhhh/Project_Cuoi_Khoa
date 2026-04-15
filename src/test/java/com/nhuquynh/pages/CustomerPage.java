@@ -2,6 +2,7 @@ package com.nhuquynh.pages;
 
 import com.nhuquynh.drivers.DriverManager;
 import com.nhuquynh.keywords.WebUI;
+import com.nhuquynh.models.CustomerModel;
 import com.nhuquynh.utils.LogUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
@@ -12,7 +13,7 @@ import org.testng.Assert;
 import static com.nhuquynh.keywords.WebUI.setTextAndKey;
 
 public class CustomerPage extends BasePage {
-
+    CustomerModel customerModel;
 
     private By menuCustomers = By.xpath("//span[normalize-space()='Customers']");
     private By headerCustomerPage = By.xpath("//span[normalize-space()='Customers Summary']");
@@ -63,15 +64,15 @@ public class CustomerPage extends BasePage {
 
     public void submitDataForNewCustomer(String customerName){
         WebUI.setText(inputCompany, customerName);
-        WebUI.setText(inputVAT, "10");
-        WebUI.setText(inputPhoneNumber,"028yyzzxxx");
-        WebUI.setText(inputWebsite,"vinhtuong.com.vn");
+        WebUI.setText(inputVAT, customerModel.vat);
+        WebUI.setText(inputPhoneNumber,customerModel.phone);
+        WebUI.setText(inputWebsite,customerModel.website);
 
         JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
         WebElement element = DriverManager.getDriver().findElement(labelGroup);
         js.executeScript("arguments[0].scrollIntoView(true);", element);
         WebUI.clickElement(dropdownGroup);
-        WebUI.setText(inputSearchGroup,"VIP");
+        WebUI.setText(inputSearchGroup,customerModel.groups);
         WebUI.clickElement(itemVIP);
         WebUI.clickElement(dropdownGroup);
 
@@ -81,14 +82,14 @@ public class CustomerPage extends BasePage {
         WebUI.clickElement(dropdownLanguage);
 
         WebUI.sleep(1);
-        WebUI.setText(inputAddress,"HCM");
-        WebUI.setText(inputCity,"HCM");
-        WebUI.setText(inputState,"Q1");
-        WebUI.setText(inputZip,"7000");
+        WebUI.setText(inputAddress,customerModel.address);
+        WebUI.setText(inputCity,customerModel.city);
+        WebUI.setText(inputState,customerModel.state);
+        WebUI.setText(inputZip,customerModel.zipCode);
 
         WebUI.sleep(1);
         WebUI.clickElement(dropdownCountry);
-        WebUI.setText(inputSearchCountry,"Vietnam");
+        WebUI.setText(inputSearchCountry,customerModel.country);
         WebUI.clickElement(itemVietnamCountry);
         WebUI.clickElement(buttonSave);
         WebUI.sleep(1);

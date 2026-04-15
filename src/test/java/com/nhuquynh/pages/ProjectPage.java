@@ -4,7 +4,7 @@ import com.nhuquynh.keywords.WebUI;
 import org.openqa.selenium.By;
 import org.testng.Assert;
 
-public class ProjectPage {
+public class ProjectPage extends BasePage{
     private By inputSearchProject = By.xpath("//div[@id='projects_filter']//input");
     private By headerProjectPage = By.xpath("//span[normalize-space()='Projects Summary']");
     private By buttonAddNewProject = By.xpath("//a[normalize-space()='New Project']");
@@ -49,10 +49,10 @@ public class ProjectPage {
         WebUI.clickElement(buttonAddNewProject);
     }
 
-    public void submitDataForNewProject(String projectName) {
+    public void submitDataForNewProject(String projectName, String customerName) {
         WebUI.setText(inputProjectName, projectName);
         WebUI.clickElement(dropdownCustomer);
-        WebUI.setText(inputSearchCustomerProject,"Công ty YHL 20260414");
+        WebUI.setText(inputSearchCustomerProject,customerName);
         WebUI.clickElement(itemYHL);
         WebUI.sleep(2);
         WebUI.clickElement(dropdowmBillingType);
@@ -70,7 +70,7 @@ public class ProjectPage {
         WebUI.setText(inputTag,",");
         WebUI.setText(inputTag,"ThachCao");
         WebUI.sleep(2);
-        WebUI.switchToFrame("description_ifr", "tinymce", "Giá cả hợp lý, Chất liệu hợp thời");
+        WebUI.setTextOnFrameDescription("description_ifr", "tinymce", "Giá cả hợp lý, Chất liệu hợp thời");
         WebUI.sleep(2);
 
 

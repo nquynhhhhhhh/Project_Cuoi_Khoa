@@ -73,7 +73,8 @@ public class WebUI {
         }
     }
 
-    public static void switchToFrame(String nameOrld, String idFrame, String text){
+    @Step("Set text {2} on Description")
+    public static void setTextOnFrameDescription(String nameOrld, String idFrame, String text){
         // Switch vào iframe Description
         DriverManager.getDriver().switchTo().frame(nameOrld);
         // Sau đó mới sendKeys được
@@ -234,7 +235,6 @@ public class WebUI {
             LogUtils.info("❌Check Element Exist:: " + false + " --- " + by);
             return false;
         }
-
     }
 
     // Hàm kiểm tra sự tồn tại của phần tử với lặp lại nhiều lần
@@ -309,7 +309,7 @@ public class WebUI {
     }
 
     @Step("Set text: {1} on element {0}") //0 là by, 1 là value
-    public static void setText(By by, String value) {
+    public static void setText(By by, Object value) {
         waitForElementVisible(by);
         sleep(STEP_TIME);
         getWebElement(by).sendKeys(value);

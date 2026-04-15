@@ -1,4 +1,4 @@
 package com.nhuquynh.pages;
 
-public class TaskPage {
+public class TaskPage extends BasePage{
 }
