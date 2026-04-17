@@ -1,17 +1,26 @@
 package com.nhuquynh.testcases;
 
+import com.nhuquynh.helpers.ExcelHelper;
 import com.nhuquynh.pages.CustomerPage;
 import com.nhuquynh.pages.DashboardPage;
 import com.nhuquynh.pages.LoginPage;
 import com.nhuquynh.common.BaseTest;
 import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 public class CustomerTest extends BaseTest {
     LoginPage loginPage;
     DashboardPage dashboardPage;
     CustomerPage customerPage;
+    ExcelHelper excelHelper;
 
+    @BeforeMethod
+    public void getExcelData(){
+        ExcelHelper excelHelper = new ExcelHelper();
+        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx","Customer");
+    }
 
     @Test
     public void testAddNewCustomer(){
@@ -19,17 +28,18 @@ public class CustomerTest extends BaseTest {
         dashboardPage = loginPage.loginCRM();
         customerPage = dashboardPage.clickMenuCustomer();
 
-        String customerName = "Công ty YHL 20260414";
         customerPage.verifyNavigateToCustomerPage();
         int berofeTotal = customerPage.getCustomersTotal();
         customerPage.clickButtonAddNewCustomer();
-        customerPage.submitDataForNewCustomer(customerName);
+        customerPage.submitDataForNewCustomer(1);
         customerPage.verifyNavigateToCustomerDetailPage();
-        customerPage.verifyAddNewCustomerSuccess(customerName);
+        customerPage.verifyAddNewCustomerSuccess(1);
         //đang trong detail nên phải click về trang customer
         customerPage.clickMenuCustomer();
+
         int afterTotal = customerPage.getCustomersTotal();
         Assert.assertEquals(afterTotal, berofeTotal + 1, "The total customer beforeTotal and afterTotal not match ");
+        customerPage.setStatus();
     }
 
     @Test
@@ -38,20 +48,18 @@ public class CustomerTest extends BaseTest {
         dashboardPage = loginPage.loginCRM();
         customerPage = dashboardPage.clickMenuCustomer();
 
-        String customerName = "Công ty YHL 20260414";
-
         customerPage.verifyNavigateToCustomerPage();
         int berofeTotal = customerPage.getCustomersTotal();
         customerPage.clickButtonAddNewCustomer();
-        customerPage.submitDataForNewCustomer(customerName);
+        customerPage.submitDataForNewCustomer(1);
 
         //search and check customer name in table
-        customerPage.searchAndCheckCustomerInTable(customerName);
+        customerPage.searchAndCheckCustomerInTable(1);
         customerPage.clickFirstItemCustomer();
 
         //verify data of new customer in profile page
         customerPage.verifyNavigateToCustomerDetailPage();
-        customerPage.verifyAddNewCustomerSuccess(customerName);
+        customerPage.verifyAddNewCustomerSuccess(1);
 
         //compare total customer
         customerPage.clickMenuCustomer();

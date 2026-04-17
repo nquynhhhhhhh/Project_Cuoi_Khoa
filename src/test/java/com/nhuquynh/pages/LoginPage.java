@@ -44,6 +44,7 @@ public class LoginPage {
     }
 
     public void verifyLoginSuccess() {
+        WebUI.waitForPageLoaded();
         WebUI.assertNotContains(WebUI.getCurrentURL(),"authentication", "FAIL. Vẫn đang ở trang Login");
     }
 
