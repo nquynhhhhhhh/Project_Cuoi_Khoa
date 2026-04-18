@@ -7,7 +7,6 @@ import com.nhuquynh.pages.LoginPage;
 import com.nhuquynh.common.BaseTest;
 import org.testng.Assert;
 import org.testng.annotations.BeforeMethod;
-import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
 public class CustomerTest extends BaseTest {
@@ -27,12 +26,13 @@ public class CustomerTest extends BaseTest {
         loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         customerPage = dashboardPage.clickMenuCustomer();
-
         customerPage.verifyNavigateToCustomerPage();
         int berofeTotal = customerPage.getCustomersTotal();
         customerPage.clickButtonAddNewCustomer();
         customerPage.submitDataForNewCustomer(1);
         customerPage.verifyNavigateToCustomerDetailPage();
+        //Lấy URL để check bên Project Page
+        customerPage.getAndSetURLCustomer();
         customerPage.verifyAddNewCustomerSuccess(1);
         customerPage.clickMenuCustomer();
 
@@ -42,11 +42,22 @@ public class CustomerTest extends BaseTest {
     }
 
     @Test
+    public void testAddNewCustomer_NullCompany(){
+        loginPage = new LoginPage();
+        dashboardPage = loginPage.loginCRM();
+        customerPage = dashboardPage.clickMenuCustomer();
+        customerPage.verifyNavigateToCustomerPage();
+        int berofeTotal = customerPage.getCustomersTotal();
+        customerPage.clickButtonAddNewCustomer();
+        //check có show alert không và có tạo được không
+        customerPage.submitData_WithNullCompany(1);
+    }
+
+    @Test
     public void testAddNewCustomer_searchInTable(){
         loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         customerPage = dashboardPage.clickMenuCustomer();
-
         customerPage.verifyNavigateToCustomerPage();
         int berofeTotal = customerPage.getCustomersTotal();
         customerPage.clickButtonAddNewCustomer();

@@ -1,6 +1,10 @@
-package com.nhuquynh.pages;
+package com.nhuquynh.common;
 
 import com.nhuquynh.keywords.WebUI;
+import com.nhuquynh.drivers.DriverManager;
+import com.nhuquynh.pages.CustomerPage;
+import com.nhuquynh.pages.ProjectPage;
+import com.nhuquynh.pages.TaskPage;
 import org.openqa.selenium.By;
 
 public class BasePage {

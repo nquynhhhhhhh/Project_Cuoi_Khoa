@@ -1,4 +1,6 @@
 package com.nhuquynh.pages;
 
-public class TaskPage extends BasePage{
+import com.nhuquynh.common.BasePage;
+
+public class TaskPage extends BasePage {
 }

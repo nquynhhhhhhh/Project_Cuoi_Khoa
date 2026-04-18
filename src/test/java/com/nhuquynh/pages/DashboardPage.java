@@ -1,5 +1,6 @@
 package com.nhuquynh.pages;
 
+import com.nhuquynh.common.BasePage;
 import com.nhuquynh.keywords.WebUI;
 import org.openqa.selenium.By;
 import org.testng.Assert;
@@ -13,7 +14,6 @@ public class DashboardPage extends BasePage {
 
     public void verifyInvoicesAwaitingPayment(String total){
         Assert.assertEquals(WebUI.getElementText(titleInvoicesAwaitingPayment), "The Invoices Awaiting Payment", "The Invoices Awaiting Payment title not match");
-        //lúc nào cũng phải check tồn tại trc
         Assert.assertTrue(WebUI.isElementDisplayed(totalInvoicesAwaitingPayment),"The Invoices Awaiting Payment total label not match");
         Assert.assertEquals(WebUI.getElementText(totalInvoicesAwaitingPayment), total, "The Invoices Awaiting Payment total not match");
     }

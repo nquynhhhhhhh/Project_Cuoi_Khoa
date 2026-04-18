@@ -1,16 +1,14 @@
 package com.nhuquynh.pages;
 
+import com.nhuquynh.common.BasePage;
 import com.nhuquynh.drivers.DriverManager;
 import com.nhuquynh.helpers.ExcelHelper;
 import com.nhuquynh.keywords.WebUI;
 import com.nhuquynh.utils.LogUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
-
-import static com.nhuquynh.keywords.WebUI.setTextAndKey;
 
 public class CustomerPage extends BasePage {
     private By menuCustomers = By.xpath("//span[normalize-space()='Customers']");
@@ -19,7 +17,7 @@ public class CustomerPage extends BasePage {
     private By buttonImportCustomers = By.xpath("//a[normalize-space()='Import Customers']");
     private By inputSearchCustomer = By.xpath("//div[@id='clients_filter']//input[@type='search']");
     private By tabCustomerDetails = By.xpath("//a[normalize-space()='Customer Details']/preceding::hi4");
-
+    private By labelCompany = By.xpath("//label[@for='company']");
     private By inputCompany = By.xpath("//input[@id='company']");
     private By inputVAT = By.xpath("//input[@id='vat']");
     private By inputPhoneNumber = By.xpath("//input[@id='phonenumber']");
@@ -92,17 +90,46 @@ public class CustomerPage extends BasePage {
         WebUI.sleep(1);
         //verify alert message
         WebUI.assertEquals(DriverManager.getDriver().findElement(alertAddSuccess).getText(),"Customer added successfully.","The Customer add failed");
+    }
 
+    public void submitData_WithNullCompany(int row) {
+        ExcelHelper excelHelper = new ExcelHelper();
+        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx","Customer");
+        WebUI.waitForPageLoaded();
+//        WebUI.setText(inputCompany, excelHelper.getCellData("Company",row));
+        WebUI.setText(inputVAT, excelHelper.getCellData("VAT",row));
+        WebUI.setText(inputPhoneNumber, excelHelper.getCellData("Phone",row));
+        WebUI.setText(inputWebsite,excelHelper.getCellData("Website",row));
+        WebUI.sleep(1);
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        WebElement element = DriverManager.getDriver().findElement(labelGroup);
+        js.executeScript("arguments[0].scrollIntoView(true);", element);
+        WebUI.clickElement(dropdownGroup);
+        WebUI.setText(inputSearchGroup,excelHelper.getCellData("Groups",row));
+        WebUI.clickElement(itemVIP);
+        WebUI.clickElement(dropdownGroup);
+        WebUI.sleep(1);
+        WebUI.clickElement(dropdownLanguage);
+        WebUI.clickElement(itemVietnamese);
+        WebUI.setText(inputAddress,excelHelper.getCellData("Address",row));
+        WebUI.setText(inputCity,excelHelper.getCellData("City",row));
+        WebUI.setText(inputState,excelHelper.getCellData("State",row));
+        WebUI.setText(inputZip,excelHelper.getCellData("Zip_Code",row));
+        WebUI.sleep(1);
+        WebUI.clickElement(dropdownCountry);
+        WebUI.setText(inputSearchCountry,excelHelper.getCellData("Country",row));
+        WebUI.clickElement(itemVietnamCountry);
+        WebUI.clickElement(buttonSave);
+        WebElement element2 = DriverManager.getDriver().findElement(labelCompany);
+        js.executeScript("arguments[0].scrollIntoView(true);", element2);
+        WebUI.assertEquals(WebUI.getElementText(errorCompany),"This field is required.","The error company not match");
+        WebUI.sleep(1);
+        WebUI.assertEquals(WebUI.getCurrentURL(),"https://crm.anhtester.com/admin/clients/client", "FAIL. Vẫn tạo Customer dù không đin Company");
     }
 
     public void verifyNavigateToCustomerDetailPage(){
         Assert.assertTrue(WebUI.checkElementExist(headerCustomerDetailPage),"The customer detail header page not dissplay.");
         WebUI.assertEquals(WebUI.getElementText(headerCustomerDetailPage),"Profile", "The cusomer detail header page not match");
-    }
-
-    public void searchDataCustomer(String data){
-        WebUI.waitForPageLoaded();
-        WebUI.setText(inputSearchCustomer, data);
     }
 
     public void verifyAddNewCustomerSuccess(int row){
@@ -135,14 +162,6 @@ public class CustomerPage extends BasePage {
         WebUI.assertEquals(customerNameInTable,excelHelper.getCellData("Company",row),"The customer name in table not match");
     }
 
-    public void searchAndCheckDataInTable(int column, String data, String columnName) {
-        WebUI.waitForPageLoaded();
-        setTextAndKey(inputSearchCustomer, data, Keys.ENTER);
-        WebUI.sleep(2);
-        WebUI.waitForPageLoaded();
-        WebUI.checkDataInTableByColumn_Contains(column, data, columnName);
-    }
-
     public void clickFirstItemCustomer(){
         WebUI.clickElement(itemCustomerFirst);
     }
@@ -157,6 +176,14 @@ public class CustomerPage extends BasePage {
         ExcelHelper excelHelper = new ExcelHelper();
         excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx", "Customer");
         excelHelper.setCellData("Passed","Status",1);
+    }
+
+    public void getAndSetURLCustomer() {
+        String url = WebUI.getCurrentURL();
+        LogUtils.info(url);
+        ExcelHelper excelHelper = new ExcelHelper();
+        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx", "Customer");
+        excelHelper.setCellData(url,"URL_Customer",1);
     }
 
 }

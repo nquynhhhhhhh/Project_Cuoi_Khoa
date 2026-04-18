@@ -24,7 +24,7 @@ public class LoginPage {
         WebUI.setText(inputEmail, "admin@example.com");
         WebUI.setText(inputPassword, "123456");
         WebUI.clickElement(buttonLogin);
-        verifyLoginSuccess(); //khi login thì check luôn có succes kh
+        verifyLoginSuccess();
         return new DashboardPage();
     }
 
