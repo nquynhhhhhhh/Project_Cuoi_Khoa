@@ -114,8 +114,13 @@ public class CustomerPage extends BasePage {
         WebUI.assertEquals(DriverManager.getDriver().findElement(inputVAT).getAttribute("value"),excelHelper.getCellData("VAT",row),"The VAT value not match");
         WebUI.assertEquals(DriverManager.getDriver().findElement(inputPhoneNumber).getAttribute("value"),excelHelper.getCellData("Phone",row),"The Phone Number not match");
         WebUI.assertEquals(DriverManager.getDriver().findElement(inputWebsite).getAttribute("value"),excelHelper.getCellData("Website",row),"The Webside not match");
-        WebUI.assertEquals(DriverManager.getDriver().findElement(dropdownGroup).getAttribute("title"),"VIP","The Group not match");
-
+        WebUI.assertEquals(DriverManager.getDriver().findElement(dropdownGroup).getAttribute("title"),excelHelper.getCellData("Groups",row),"The Group not match");
+        WebUI.assertEquals(DriverManager.getDriver().findElement(dropdownLanguage).getAttribute("title"),excelHelper.getCellData("Language",row),"The Language not match");
+        WebUI.assertEquals(DriverManager.getDriver().findElement(inputAddress).getText(),excelHelper.getCellData("Address",row),"The Address not match");
+        WebUI.assertEquals(DriverManager.getDriver().findElement(inputCity).getAttribute("value"),excelHelper.getCellData("City",row),"The City not match");
+        WebUI.assertEquals(DriverManager.getDriver().findElement(inputState).getAttribute("value"),excelHelper.getCellData("State",row),"The State not match");
+        WebUI.assertEquals(DriverManager.getDriver().findElement(inputZip).getAttribute("value"),excelHelper.getCellData("Zip_Code",row),"The Zip Code not match");
+        WebUI.assertEquals(DriverManager.getDriver().findElement(dropdownCountry).getAttribute("title"),excelHelper.getCellData("Country",row),"The Country not match");
     }
 
     public void searchAndCheckCustomerInTable(int row){
@@ -151,7 +156,7 @@ public class CustomerPage extends BasePage {
     public void setStatus() {
         ExcelHelper excelHelper = new ExcelHelper();
         excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx", "Customer");
-        excelHelper.setCellData("Passed","Status",2);
+        excelHelper.setCellData("Passed","Status",1);
     }
 
 }

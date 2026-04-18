@@ -1,14 +1,12 @@
 package com.nhuquynh.pages;
 
 import com.nhuquynh.drivers.DriverManager;
+import com.nhuquynh.helpers.ExcelHelper;
 import com.nhuquynh.helpers.PropertiesHelper;
 import com.nhuquynh.keywords.WebUI;
 import com.nhuquynh.utils.LogUtils;
 import org.openqa.selenium.By;
 import org.testng.Assert;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class LoginPage {
 
@@ -21,25 +19,54 @@ public class LoginPage {
     private By errorMessage1 = By.xpath("(//div[contains(@class,'alert-danger')])[1]");
     private By errorMessage2 = By.xpath("(//div[contains(@class,'alert-danger')])[2]");
 
-
-      public DashboardPage loginCRM() {
+    public DashboardPage loginCRM() {
         WebUI.openURL(PropertiesHelper.getValue("URL"));
         WebUI.setText(inputEmail, "admin@example.com");
         WebUI.setText(inputPassword, "123456");
         WebUI.clickElement(buttonLogin);
         verifyLoginSuccess(); //khi login thì check luôn có succes kh
-
         return new DashboardPage();
     }
 
-    public void loginCRM(String email, String password) {
-        LogUtils.info("");
+    public void loginCRMSuccessWithDataExcel() {
         WebUI.openURL(PropertiesHelper.getValue("URL"));
         WebUI.waitForPageLoaded();
         WebUI.clearText(inputEmail);
         WebUI.clearText(inputPassword);
-        WebUI.setText(inputEmail, email);
-        WebUI.setText(inputPassword, password);
+
+        ExcelHelper excelHelper = new ExcelHelper();
+        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx","Login");
+
+        WebUI.setText(inputEmail, excelHelper.getCellData("Email",1));
+        WebUI.setText(inputPassword, excelHelper.getCellData("Password",1));
+        WebUI.clickElement(buttonLogin);
+    }
+
+    public void loginCRMFailWithEmailInvalid() {
+        WebUI.openURL(PropertiesHelper.getValue("URL"));
+        WebUI.waitForPageLoaded();
+        WebUI.clearText(inputEmail);
+        WebUI.clearText(inputPassword);
+
+        ExcelHelper excelHelper = new ExcelHelper();
+        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx","Login");
+
+        WebUI.setText(inputEmail, excelHelper.getCellData("Email",2));
+        WebUI.setText(inputPassword, excelHelper.getCellData("Password",2));
+        WebUI.clickElement(buttonLogin);
+    }
+
+    public void loginCRMFailWithPasswordInvalid() {
+        WebUI.openURL(PropertiesHelper.getValue("URL"));
+        WebUI.waitForPageLoaded();
+        WebUI.clearText(inputEmail);
+        WebUI.clearText(inputPassword);
+
+        ExcelHelper excelHelper = new ExcelHelper();
+        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx","Login");
+
+        WebUI.setText(inputEmail, excelHelper.getCellData("Email",3));
+        WebUI.setText(inputPassword, excelHelper.getCellData("Password",3));
         WebUI.clickElement(buttonLogin);
     }
 
@@ -48,18 +75,11 @@ public class LoginPage {
         WebUI.assertNotContains(WebUI.getCurrentURL(),"authentication", "FAIL. Vẫn đang ở trang Login");
     }
 
-    public void verifyLoginFail() {
+    public void verifyLoginFail(String message) {
         WebUI.assertContains(WebUI.getCurrentURL(),"authentication", "FAIL. Vẫn đang ở trang Login");
         Assert.assertTrue(DriverManager.getDriver().findElement(errorMessage).isDisplayed(), "Error message NOT displays");
-        WebUI.assertEquals(WebUI.getElementText(errorMessage),"Invalid email or password", "Content of error message NOT match.");
+        WebUI.assertEquals(WebUI.getElementText(errorMessage),"Invalid email or password", message);
     }
-
-    public void verifyLoginFail(String message) { //khi gọi hàm phải truyền text nhưng sử dụng được nhiều TH
-        WebUI.assertContains(WebUI.getCurrentURL(),"authentication", "FAIL. Vẫn đang ở trang Login");
-        Assert.assertTrue(DriverManager.getDriver().findElement(errorMessage).isDisplayed(), "Error message NOT displays");
-        WebUI.assertEquals(WebUI.getElementText(errorMessage),message, "Content of error massage NOT match.");
-    }
-
 
 }
 

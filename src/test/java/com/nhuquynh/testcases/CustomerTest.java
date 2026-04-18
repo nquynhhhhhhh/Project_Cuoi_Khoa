@@ -34,7 +34,6 @@ public class CustomerTest extends BaseTest {
         customerPage.submitDataForNewCustomer(1);
         customerPage.verifyNavigateToCustomerDetailPage();
         customerPage.verifyAddNewCustomerSuccess(1);
-        //đang trong detail nên phải click về trang customer
         customerPage.clickMenuCustomer();
 
         int afterTotal = customerPage.getCustomersTotal();

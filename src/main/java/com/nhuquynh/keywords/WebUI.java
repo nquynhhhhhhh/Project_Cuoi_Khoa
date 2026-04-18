@@ -316,6 +316,7 @@ public class WebUI {
         LogUtils.info("\uD83D\uDD8B\uFE0FSet text " + value + " on element " + by);
         ExtentTestManager.logMessage(Status.PASS, "Set text " + value + " on element " + by);
     }
+
     @Step("\uD83D\uDCACGet text on element: {0}")
     public static String getElementText(By by) {
         waitForElementVisible(by);
