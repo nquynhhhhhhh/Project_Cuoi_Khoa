@@ -26,6 +26,8 @@ public class ExcelHelper {
     private Color mycolor;
     private String excelFilePath;
     private Map<String, Integer> columns = new HashMap<>();
+    private static DataFormatter formatter = new DataFormatter();
+    private static FormulaEvaluator evaluator;
 
     public void setExcelFile(String ExcelPath, String SheetName){
         try {
@@ -53,6 +55,7 @@ public class ExcelHelper {
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
+        evaluator = wb.getCreationHelper().createFormulaEvaluator();
     }
 
     public String getCellData(int columnIndex, int rowIndex) {
@@ -84,16 +87,39 @@ public class ExcelHelper {
     }
 
     //Gọi ra hàm này nè
+//    public String getCellData(String columnName, int rowIndex) {
+////            // Thêm dòng này để kiểm tra xem Map có gì
+////            System.out.println("Danh sách cột đang có: " + columns.keySet());
+////
+////            if (!columns.containsKey(columnName)) {
+////                throw new RuntimeException("Không tìm thấy cột: " + columnName);
+////            }
+////            return getCellData(columns.get(columnName), rowIndex);
+////        }
+//        return getCellData(columns.get(columnName), rowIndex);
+//    }
+
     public String getCellData(String columnName, int rowIndex) {
-//            // Thêm dòng này để kiểm tra xem Map có gì
-//            System.out.println("Danh sách cột đang có: " + columns.keySet());
-//
-//            if (!columns.containsKey(columnName)) {
-//                throw new RuntimeException("Không tìm thấy cột: " + columnName);
-//            }
-//            return getCellData(columns.get(columnName), rowIndex);
-//        }
-        return getCellData(columns.get(columnName), rowIndex);
+        try {
+            if (columns.get(columnName) == null) return "";
+            int columnIndex = columns.get(columnName);
+
+            Row row = sh.getRow(rowIndex);
+            if (row == null) return "";
+
+            Cell cell = row.getCell(columnIndex);
+            if (cell == null || cell.getCellType() == CellType.BLANK) return "";
+
+            // 1. Khởi tạo bộ tính toán công thức
+            FormulaEvaluator evaluator = sh.getWorkbook().getCreationHelper().createFormulaEvaluator();
+            DataFormatter formatter = new DataFormatter();
+
+            // 2. Dùng formatter kết hợp với evaluator để tính toán giá trị thực
+            return formatter.formatCellValue(cell, evaluator);
+
+        } catch (Exception e) {
+            return "";
+        }
     }
 
     //set by column index

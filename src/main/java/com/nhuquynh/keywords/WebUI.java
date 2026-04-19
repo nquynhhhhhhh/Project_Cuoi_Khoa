@@ -73,16 +73,6 @@ public class WebUI {
         }
     }
 
-    @Step("Set text {2} on Description")
-    public static void setTextOnFrameDescription(String nameOrld, String idFrame, String text){
-        // Switch vào iframe Description
-        DriverManager.getDriver().switchTo().frame(nameOrld);
-        // Sau đó mới sendKeys được
-        DriverManager.getDriver().findElement(By.id(idFrame)).sendKeys(text);
-        // Quay lại main page
-        DriverManager.getDriver().switchTo().defaultContent();
-    }
-
     //Wait for Element
     public static void waitForElementVisible(By by) {
         try {
@@ -349,6 +339,16 @@ public class WebUI {
         String value = getWebElement(by).getCssValue(cssPropertyName);
         LogUtils.info("==> CSS value: " + value);
         return value;
+    }
+
+    @Step("Set text {2} on Description")
+    public static void setTextOnFrameDescription(By by, String text){
+        // Switch vào iframe Description
+        DriverManager.getDriver().switchTo().frame("description_ifr");
+        // Sau đó mới sendKeys được
+        DriverManager.getDriver().findElement(by).sendKeys(text);
+        // Quay lại main page
+        DriverManager.getDriver().switchTo().defaultContent();
     }
 
     public static void setTextAndKey(By by, String value, Keys key) {

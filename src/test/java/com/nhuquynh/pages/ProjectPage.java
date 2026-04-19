@@ -5,6 +5,8 @@ import com.nhuquynh.drivers.DriverManager;
 import com.nhuquynh.helpers.ExcelHelper;
 import com.nhuquynh.keywords.WebUI;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 public class ProjectPage extends BasePage {
@@ -27,10 +29,11 @@ public class ProjectPage extends BasePage {
     private By itemInProgress = By.xpath("//div[@id='bs-select-2']//span[normalize-space()='In Progress']");
     private By inputEstimatedHours = By.xpath("//input[@id='estimated_hours']");
     private By dropdownMember = By.xpath("//button[@data-id='project_members[]']");
+    private By buttonDeselectAll = By.xpath("//button[@data-id='project_members[]']/following-sibling::div//button[normalize-space()='Deselect All']");
     private By buttonSelectAll = By.xpath("//button[@data-id='project_members[]']/following-sibling::div//button[normalize-space()='Select All']");
     private By inputStartDate = By.xpath("//input[@id='start_date']/following-sibling::div[@class='input-group-addon']");
-    private By item20260413 = By.xpath("//tr//td[@data-date='13' and @data-month='3' and @data-year='2026']/div"); //tháng 4 nhưng bắt đầu từ 0 => data-month='3'
-    private By buttonNextMonth = By.xpath("//div[@class='xdsoft_label xdsoft_year']/following-sibling::button");
+    private By item20260413 = By.xpath("//div[contains(@style, 'display: block')]//tr//td[@data-date='13' and @data-month='3' and @data-year='2026']/div[normalize-space()='13']"); //tháng 4 nhưng bắt đầu từ 0 => data-month='3'
+    private By buttonNextMonth = By.xpath("//div[contains(@style, 'display: block')]//div[@class='xdsoft_label xdsoft_year']/following-sibling::button");
     private By item20260513 = By.xpath("//tr//td[@data-date='13' and @data-month='4' and @data-year='2026']/div");
     private By inputDeadline = By.xpath("//input[@id='deadline']");
     private By inputTags = By.xpath("//input[@id='tags']/following-sibling::ul/li[@class='tagit-new']/input");
@@ -60,17 +63,32 @@ public class ProjectPage extends BasePage {
         WebUI.setText(inputProjectName, excelHelper.getCellData("Project_Name",row));
         WebUI.clickElement(dropdownCustomer);
         WebUI.setText(inputSearchCustomerProject, excelHelper.getCellData("Customer",row));
+        WebUI.sleep(1);
         WebUI.clickElement(itemFirst);
         WebUI.clickElement(dropdowmBillingType);
         WebUI.clickElement(itemTaskHours);
         WebUI.clickElement(dropdownStatus);
         WebUI.clickElement(itemInProgress);
+        WebUI.sleep(1);
+        JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
+        WebElement element = DriverManager.getDriver().findElement(inputEstimatedHours);
+        js.executeScript("arguments[0].scrollIntoView(true);", element);
         WebUI.setText(inputEstimatedHours, excelHelper.getCellData("Estimated_Hours",row));
         WebUI.clickElement(dropdownMember);
+        WebUI.clickElement(buttonDeselectAll);
         WebUI.clickElement(buttonSelectAll);
-        WebUI.setText(inputStartDate, excelHelper.getCellData("Start_Date",row));
-        WebUI.setText(inputDeadline, excelHelper.getCellData("Deadline",row));
+        WebUI.clickElement(dropdownMember);
+        WebUI.clickElement(inputStartDate);
+        WebUI.sleep(1);
+        WebUI.clickElement(item20260413);
+        WebUI.clickElement(inputDeadline);
+        WebUI.sleep(1);
+        WebUI.clickElement(buttonNextMonth);
+        WebUI.sleep(1);
+        WebUI.clickElement(item20260513);
         WebUI.setText(inputTags, excelHelper.getCellData("Tags",row));
-        WebUI.setText(inputDescription, excelHelper.getCellData("Description",row));
+        WebUI.setTextOnFrameDescription(inputDescription, excelHelper.getCellData("Description",row));
+        WebUI.sleep(1);
+        WebUI.clickElement(buttonSaveProject);
     }
 }
