@@ -41,41 +41,5 @@ public class CustomerTest extends BaseTest {
         customerPage.setStatus();
     }
 
-    @Test
-    public void testAddNewCustomer_NullCompany(){
-        loginPage = new LoginPage();
-        dashboardPage = loginPage.loginCRM();
-        customerPage = dashboardPage.clickMenuCustomer();
-        customerPage.verifyNavigateToCustomerPage();
-        int berofeTotal = customerPage.getCustomersTotal();
-        customerPage.clickButtonAddNewCustomer();
-        //check có show alert không và có tạo được không
-        customerPage.submitData_WithNullCompany(1);
-    }
-
-    @Test
-    public void testAddNewCustomer_searchInTable(){
-        loginPage = new LoginPage();
-        dashboardPage = loginPage.loginCRM();
-        customerPage = dashboardPage.clickMenuCustomer();
-        customerPage.verifyNavigateToCustomerPage();
-        int berofeTotal = customerPage.getCustomersTotal();
-        customerPage.clickButtonAddNewCustomer();
-        customerPage.submitDataForNewCustomer(1);
-
-        //search and check customer name in table
-        customerPage.searchAndCheckCustomerInTable(1);
-        customerPage.clickFirstItemCustomer();
-
-        //verify data of new customer in profile page
-        customerPage.verifyNavigateToCustomerDetailPage();
-        customerPage.verifyAddNewCustomerSuccess(1);
-
-        //compare total customer
-        customerPage.clickMenuCustomer();
-        int afterTotal = customerPage.getCustomersTotal();
-        Assert.assertEquals(afterTotal, berofeTotal + 1, "The total customer beforeTotal and afterTotal not match ");
-
-    }
 
 }

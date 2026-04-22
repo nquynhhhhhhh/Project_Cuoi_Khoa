@@ -20,21 +20,42 @@ public class ProjectPage extends BasePage {
     private By inputProjectName = By.xpath("//input[@id='name']");
     private By dropdownCustomer = By.xpath("//button[@data-id='clientid']");
     private By inputSearchCustomerProject = By.xpath("//button[@data-id='clientid']/following-sibling::div//input[@type='search']");
-    private By itemFirst = By.xpath("//button[@data-id='clientid']/following-sibling::div//span[@class='text']");
+    private By itemCustomer(String customerName) {
+        By xpathCustomer = By.xpath("//button[@data-id='clientid']/following-sibling::div//span[normalize-space()='" + customerName + "']");
+        return xpathCustomer;
+    }
     private By checkboxCalculateProgress = By.xpath("//input[@id='progress_from_tasks']");
     private By scrollProgress = By.xpath("//input[@name='progress']/following-sibling::div/span");
     private By dropdowmBillingType = By.xpath("//button[@data-id='billing_type']");
-    private By itemTaskHours = By.xpath("//button[@data-id='billing_type']/following-sibling::div//a[@id='bs-select-1-3']");
+    private By itemBillingType(String billingType) {
+        By xpathBillingType = By.xpath("//button[@data-id='billing_type']/following-sibling::div//span[@class='text' and contains(., '" + billingType + "')]");
+        return xpathBillingType;
+    }
     private By dropdownStatus = By.xpath("//button[@data-id='status']");
-    private By itemInProgress = By.xpath("//div[@id='bs-select-2']//span[normalize-space()='In Progress']");
+    private By itemStatus(String status) {
+        By xpathStatus = By.xpath("//div[@id='bs-select-2']//span[normalize-space()='" + status + "']");
+        return xpathStatus;
+    }
     private By inputEstimatedHours = By.xpath("//input[@id='estimated_hours']");
     private By dropdownMember = By.xpath("//button[@data-id='project_members[]']");
     private By buttonDeselectAll = By.xpath("//button[@data-id='project_members[]']/following-sibling::div//button[normalize-space()='Deselect All']");
     private By buttonSelectAll = By.xpath("//button[@data-id='project_members[]']/following-sibling::div//button[normalize-space()='Select All']");
+    private By itemMember(String member) {
+        By xpathMember = By.xpath("//button[contains(@data-id,'project_members')]/following-sibling::div/descendant::span[normalize-space()='" + member + "']");
+        return xpathMember;
+    }
     private By inputStartDate = By.xpath("//input[@id='start_date']/following-sibling::div[@class='input-group-addon']");
-    private By item20260413 = By.xpath("//div[contains(@style, 'display: block')]//tr//td[@data-date='13' and @data-month='3' and @data-year='2026']/div[normalize-space()='13']"); //tháng 4 nhưng bắt đầu từ 0 => data-month='3'
+    private By item20260413 = By.xpath("//div[contains(@style, 'display: block')]//tr//td[@data-date='13' and @data-month='3' and @data-year='2026']/div");
+    private By itemStartDate(int day, int month, int year) {
+        By xpathMember = By.xpath("//div[contains(@style, 'display: block')]//tr//td[@data-date='" + day + "' and @data-month='" + month + "' and @data-year='" + year + "']/div");
+        return xpathMember;
+    }
     private By buttonNextMonth = By.xpath("//div[contains(@style, 'display: block')]//div[@class='xdsoft_label xdsoft_year']/following-sibling::button");
     private By item20260513 = By.xpath("//tr//td[@data-date='13' and @data-month='4' and @data-year='2026']/div");
+    private By itemDealine(int day, int month, int year) {
+        By xpathMember = By.xpath("//tr//td[@data-date='" + day + "' and @data-month='" + month + "' and @data-year='" + year + "']/div");
+        return xpathMember;
+    }
     private By inputDeadline = By.xpath("//input[@id='deadline']");
     private By inputTags = By.xpath("//input[@id='tags']/following-sibling::ul/li[@class='tagit-new']/input");
     private By inputDescription = By.xpath("//body[@id='tinymce']");
@@ -64,11 +85,11 @@ public class ProjectPage extends BasePage {
         WebUI.clickElement(dropdownCustomer);
         WebUI.setText(inputSearchCustomerProject, excelHelper.getCellData("Customer",row));
         WebUI.sleep(1);
-        WebUI.clickElement(itemFirst);
+        WebUI.clickElement(itemCustomer(excelHelper.getCellData("Customer",row)));
         WebUI.clickElement(dropdowmBillingType);
-        WebUI.clickElement(itemTaskHours);
+        WebUI.clickElement(itemBillingType(excelHelper.getCellData("Billing_Type",row)));
         WebUI.clickElement(dropdownStatus);
-        WebUI.clickElement(itemInProgress);
+        WebUI.clickElement(itemStatus(excelHelper.getCellData("Status",row)));
         WebUI.sleep(1);
         JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
         WebElement element = DriverManager.getDriver().findElement(inputEstimatedHours);

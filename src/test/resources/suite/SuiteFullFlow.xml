@@ -1,0 +1,21 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Suite Full Flow" verbose="1">
+
+    <test name="Login Test with Chrome">
+        <parameter name="browser" value="chrome"></parameter>
+        <classes>
+            <class name="com.nhuquynh.testcases.CustomerTest">
+                <methods>
+                    <include name="testAddNewCustomer"></include>
+                </methods>
+            </class>
+            <class name="com.nhuquynh.testcases.ProjectTest">
+                <methods>
+                    <include name="testAddNewProject"></include>
+                </methods>
+            </class>
+        </classes>
+    </test>
+
+</suite>

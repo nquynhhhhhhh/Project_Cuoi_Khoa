@@ -26,27 +26,39 @@ public class CustomerPage extends BasePage {
     private By labelGroup = By.xpath("//label[normalize-space()='Groups']");
     private By addGroup = By.xpath("//div[@class='input-group-btn']");
     private By inputSearchGroup = By.xpath("//button[@data-id='groups_in[]']/following-sibling::div//input");
-    private By itemVIP = By.xpath("//button[@data-id='groups_in[]']/following-sibling::div//span[normalize-space()='VIP']");
+    private By itemGroup(String groupName) {
+        By xpathValueGroup = By.xpath("//button[@data-id='groups_in[]']/following-sibling::div//span[normalize-space()='" + groupName + "']");
+        return xpathValueGroup;
+    }
     private By dropdownCurrency = By.xpath("//button[@data-id='default_currency']");
     private By inputSearchCurrency = By.xpath("//button[@data-id='default_currency']/following-sibling::div//input");
+    private By itemCurrency(String currency) {
+        By xpathValueCurrency = By.xpath("(//button[@data-id='default_currency']/following-sibling::div)//span[contains(normalize-space(),'" + currency + "')]");
+        return xpathValueCurrency;
+    }
     private By notFoundCurrency = By.xpath("//button[@data-id='default_currency']/following-sibling::div//li[@class='no-results']");
-    private By itemUSD = By.xpath("//button[@data-id='default_currency']/following-sibling::div//span[contains(normalize-space(),'USD')]");
     private By dropdownLanguage = By.xpath("//button[@data-id='default_language']");
-    private By itemVietnamese = By.xpath("//span[normalize-space()='Vietnamese']");
+    private By itemLanguage(String language) {
+        By xpathValueLanguage = By.xpath("//button[@data-id='default_language']/following-sibling::div//a[normalize-space()='" + language + "']");
+        return xpathValueLanguage;
+    }
     private By inputAddress = By.xpath("//textarea[@id='address']");
     private By inputCity = By.xpath("//input[@id='city']");
     private By inputState = By.xpath("//input[@id='state']");
     private By inputZip = By.xpath("//input[@id='zip']");
     private By dropdownCountry = By.xpath("//button[@data-id='country']");
     private By inputSearchCountry = By.xpath("//button[@data-id='country']/following-sibling::div//input");
-    private By itemVietnamCountry = By.xpath("//button[@data-id='country']/following-sibling::div//span[normalize-space()='Vietnam']");
+    private By itemCountry(String country) {
+        By xpathValueCountry = By.xpath("//button[@data-id='country']/following-sibling::div//span[normalize-space()='" + country + "']");
+        return xpathValueCountry;
+    }
     private By buttonSaveAndCreate = By.xpath("//button[normalize-space()='Save and create contact']");
     private By buttonSave = By.xpath("//div[@id='profile-save-section']//button[normalize-space()='Save']");
     private By errorCompany = By.xpath("//p[@id='company-error']");
     private By alertAddSuccess = By.xpath("//div[@id='alert_float_1']/span[normalize-space()='Customer added successfully.']");
     private By itemCustomerFirst = By.xpath("//table[@id='clients']/tbody/tr[1]/td[3]/a");
     private By headerCustomerDetailPage = By.xpath("//h4[normalize-space()='Profile']");
-    //4 total in customer list
+    //total in customer list
     private By totalCustomers = By.xpath("//span[normalize-space()='Total Customers']/preceding-sibling::span");
 
 
@@ -73,11 +85,11 @@ public class CustomerPage extends BasePage {
         js.executeScript("arguments[0].scrollIntoView(true);", element);
         WebUI.clickElement(dropdownGroup);
         WebUI.setText(inputSearchGroup,excelHelper.getCellData("Groups",row));
-        WebUI.clickElement(itemVIP);
+        WebUI.clickElement(itemGroup(excelHelper.getCellData("Groups",row)));
         WebUI.clickElement(dropdownGroup);
         WebUI.sleep(1);
         WebUI.clickElement(dropdownLanguage);
-        WebUI.clickElement(itemVietnamese);
+        WebUI.clickElement(itemLanguage(excelHelper.getCellData("Language",row)));
         WebUI.setText(inputAddress,excelHelper.getCellData("Address",row));
         WebUI.setText(inputCity,excelHelper.getCellData("City",row));
         WebUI.setText(inputState,excelHelper.getCellData("State",row));
@@ -85,7 +97,7 @@ public class CustomerPage extends BasePage {
         WebUI.sleep(1);
         WebUI.clickElement(dropdownCountry);
         WebUI.setText(inputSearchCountry,excelHelper.getCellData("Country",row));
-        WebUI.clickElement(itemVietnamCountry);
+        WebUI.clickElement(itemCountry(excelHelper.getCellData("Country",row)));
         WebUI.clickElement(buttonSave);
         WebUI.sleep(1);
         //verify alert message
@@ -106,11 +118,14 @@ public class CustomerPage extends BasePage {
         js.executeScript("arguments[0].scrollIntoView(true);", element);
         WebUI.clickElement(dropdownGroup);
         WebUI.setText(inputSearchGroup,excelHelper.getCellData("Groups",row));
-        WebUI.clickElement(itemVIP);
+        WebUI.setText(inputSearchGroup,excelHelper.getCellData("Groups",row));
         WebUI.clickElement(dropdownGroup);
         WebUI.sleep(1);
+        WebUI.clickElement(dropdownCurrency);
+        WebUI.setText(inputSearchCurrency,excelHelper.getCellData("Currency",row));
+        WebUI.clickElement(itemCurrency(excelHelper.getCellData("Currency",row)));
         WebUI.clickElement(dropdownLanguage);
-        WebUI.clickElement(itemVietnamese);
+        WebUI.clickElement(itemLanguage(excelHelper.getCellData("Language",row)));
         WebUI.setText(inputAddress,excelHelper.getCellData("Address",row));
         WebUI.setText(inputCity,excelHelper.getCellData("City",row));
         WebUI.setText(inputState,excelHelper.getCellData("State",row));
@@ -118,7 +133,7 @@ public class CustomerPage extends BasePage {
         WebUI.sleep(1);
         WebUI.clickElement(dropdownCountry);
         WebUI.setText(inputSearchCountry,excelHelper.getCellData("Country",row));
-        WebUI.clickElement(itemVietnamCountry);
+        WebUI.clickElement(itemCountry(excelHelper.getCellData("Country",row)));
         WebUI.clickElement(buttonSave);
         WebElement element2 = DriverManager.getDriver().findElement(labelCompany);
         js.executeScript("arguments[0].scrollIntoView(true);", element2);
