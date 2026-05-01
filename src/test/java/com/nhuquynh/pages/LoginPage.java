@@ -42,6 +42,16 @@ public class LoginPage {
         WebUI.clickElement(buttonLogin);
     }
 
+    public void loginCRMSuccessWithDataProvider(String testcase, String email, String password) {
+        WebUI.openURL(PropertiesHelper.getValue("URL"));
+        WebUI.waitForPageLoaded();
+        WebUI.clearText(inputEmail);
+        WebUI.clearText(inputPassword);
+        WebUI.setText(inputEmail, email);
+        WebUI.setText(inputPassword, password);
+        WebUI.clickElement(buttonLogin);
+    }
+
     public void loginCRMFailWithEmailInvalid() {
         WebUI.openURL(PropertiesHelper.getValue("URL"));
         WebUI.waitForPageLoaded();

@@ -22,13 +22,27 @@ public class ProjectTest extends BaseTest {
         excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx","Project");
     }
 
-    @Test
+    @Test()
     public void testAddNewProject() {
         loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         projectPage = dashboardPage.clickMenuProject();
         projectPage.verifyNavigateToProjectPage();
         projectPage.clickButtonAddNewProject();
-        projectPage.submitDataForNewProject(1);
+        projectPage.submitDataForNewProject(3);
+        projectPage.verifyProjectProfile(3);
     }
+
+    @Test
+    public void testEditProject(){
+        loginPage = new LoginPage();
+        dashboardPage = loginPage.loginCRM();
+        projectPage = dashboardPage.clickMenuProject();
+        projectPage.searchProject(3);
+        projectPage.editProject(4);
+        projectPage.verifyProjectProfile(4);
+    }
+
+
+
 }

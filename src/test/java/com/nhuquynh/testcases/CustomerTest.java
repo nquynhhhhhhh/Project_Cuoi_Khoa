@@ -22,7 +22,7 @@ public class CustomerTest extends BaseTest {
     }
 
     @Test
-    public void testAddNewCustomer(){
+    public void testAddNewCustomer() {
         loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         customerPage = dashboardPage.clickMenuCustomer();

@@ -1,5 +1,6 @@
 package com.nhuquynh.testcases;
 
+import com.nhuquynh.dataproviders.DataProviderFactory;
 import com.nhuquynh.helpers.ExcelHelper;
 import com.nhuquynh.pages.LoginPage;
 import com.nhuquynh.common.BaseTest;
@@ -42,6 +43,13 @@ public class LoginTest extends BaseTest {
         loginPage = new LoginPage();
         loginPage.loginCRMFailWithPasswordInvalid();
         loginPage.verifyLoginFail("Invalid password");
+    }
+
+    @Test(dataProvider = "data_provider_login_excel", dataProviderClass = DataProviderFactory.class)
+    public void loginSuccessFromDataProvider(String testcase, String email, String password){
+        loginPage = new LoginPage();
+        loginPage.loginCRMSuccessWithDataProvider(testcase, email,password);
+        loginPage.verifyLoginSuccess();
     }
 
 }

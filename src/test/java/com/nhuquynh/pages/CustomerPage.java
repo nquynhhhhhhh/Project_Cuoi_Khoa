@@ -11,6 +11,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 public class CustomerPage extends BasePage {
+//ADD NEW CUSTOMER
     private By menuCustomers = By.xpath("//span[normalize-space()='Customers']");
     private By headerCustomerPage = By.xpath("//span[normalize-space()='Customers Summary']");
     private By buttonAddNewCustomer = By.xpath("//a[normalize-space()='New Customer']");
@@ -55,6 +56,7 @@ public class CustomerPage extends BasePage {
     private By buttonSaveAndCreate = By.xpath("//button[normalize-space()='Save and create contact']");
     private By buttonSave = By.xpath("//div[@id='profile-save-section']//button[normalize-space()='Save']");
     private By errorCompany = By.xpath("//p[@id='company-error']");
+//ADD NEW CUSTOMER SUCCESS
     private By alertAddSuccess = By.xpath("//div[@id='alert_float_1']/span[normalize-space()='Customer added successfully.']");
     private By itemCustomerFirst = By.xpath("//table[@id='clients']/tbody/tr[1]/td[3]/a");
     private By headerCustomerDetailPage = By.xpath("//h4[normalize-space()='Profile']");
@@ -62,6 +64,7 @@ public class CustomerPage extends BasePage {
     private By totalCustomers = By.xpath("//span[normalize-space()='Total Customers']/preceding-sibling::span");
 
 
+    //========================HÀM CHUNG===============================
     public void verifyNavigateToCustomerPage(){
         Assert.assertTrue(WebUI.checkElementExist(headerCustomerPage),"The customer header page not dissplay.");
         Assert.assertEquals(WebUI.getElementText(headerCustomerPage),"Customers Summary", "The cusomer header page not match");

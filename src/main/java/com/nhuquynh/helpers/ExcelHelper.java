@@ -86,18 +86,18 @@ public class ExcelHelper {
         }
     }
 
-    //Gọi ra hàm này nè
-//    public String getCellData(String columnName, int rowIndex) {
-////            // Thêm dòng này để kiểm tra xem Map có gì
-////            System.out.println("Danh sách cột đang có: " + columns.keySet());
-////
-////            if (!columns.containsKey(columnName)) {
-////                throw new RuntimeException("Không tìm thấy cột: " + columnName);
-////            }
-////            return getCellData(columns.get(columnName), rowIndex);
-////        }
-//        return getCellData(columns.get(columnName), rowIndex);
-//    }
+//    //Gọi ra hàm này nè
+    public String getCellDataByDataProvider(String columnName, int rowIndex) {
+//            // Thêm dòng này để kiểm tra xem Map có gì
+//            System.out.println("Danh sách cột đang có: " + columns.keySet());
+//
+//            if (!columns.containsKey(columnName)) {
+//                throw new RuntimeException("Không tìm thấy cột: " + columnName);
+//            }
+//            return getCellData(columns.get(columnName), rowIndex);
+//        }
+        return getCellData(columns.get(columnName), rowIndex);
+    }
 
     public String getCellData(String columnName, int rowIndex) {
         try {
