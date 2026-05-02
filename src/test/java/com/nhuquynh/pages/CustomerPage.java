@@ -3,6 +3,7 @@ package com.nhuquynh.pages;
 import com.nhuquynh.common.BasePage;
 import com.nhuquynh.drivers.DriverManager;
 import com.nhuquynh.helpers.ExcelHelper;
+import com.nhuquynh.helpers.PropertiesHelper;
 import com.nhuquynh.keywords.WebUI;
 import com.nhuquynh.utils.LogUtils;
 import org.openqa.selenium.By;
@@ -76,8 +77,9 @@ public class CustomerPage extends BasePage {
 
     public void submitDataForNewCustomer(int row){
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx","Customer");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"),"Customer");
         WebUI.waitForPageLoaded();
+
         WebUI.setText(inputCompany, excelHelper.getCellData("Company",row));
         WebUI.setText(inputVAT, excelHelper.getCellData("VAT",row));
         WebUI.setText(inputPhoneNumber, excelHelper.getCellData("Phone",row));
@@ -109,9 +111,9 @@ public class CustomerPage extends BasePage {
 
     public void submitData_WithNullCompany(int row) {
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx","Customer");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"),"Customer");
         WebUI.waitForPageLoaded();
-//        WebUI.setText(inputCompany, excelHelper.getCellData("Company",row));
+
         WebUI.setText(inputVAT, excelHelper.getCellData("VAT",row));
         WebUI.setText(inputPhoneNumber, excelHelper.getCellData("Phone",row));
         WebUI.setText(inputWebsite,excelHelper.getCellData("Website",row));
@@ -152,7 +154,7 @@ public class CustomerPage extends BasePage {
 
     public void verifyAddNewCustomerSuccess(int row){
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx","Customer");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"),"Customer");
 
         //verify data
         WebUI.assertEquals(DriverManager.getDriver().findElement(inputCompany).getAttribute("value"),excelHelper.getCellData("Company",row),"The Company Name not match");
@@ -170,18 +172,14 @@ public class CustomerPage extends BasePage {
 
     public void searchAndCheckCustomerInTable(int row){
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx","Customer");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"),"Customer");
 
         clickMenuCustomer();
         WebUI.setText(inputSearchCustomer,excelHelper.getCellData("Company",row));
         WebUI.sleep(2);
         String customerNameInTable = WebUI.getElementText(itemCustomerFirst);
-        System.out.println(customerNameInTable);
+        LogUtils.info(customerNameInTable);
         WebUI.assertEquals(customerNameInTable,excelHelper.getCellData("Company",row),"The customer name in table not match");
-    }
-
-    public void clickFirstItemCustomer(){
-        WebUI.clickElement(itemCustomerFirst);
     }
 
     public int getCustomersTotal(){
@@ -192,7 +190,7 @@ public class CustomerPage extends BasePage {
 
     public void setStatus() {
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx", "Customer");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"), "Customer");
         excelHelper.setCellData("Passed","Status",1);
     }
 
@@ -200,7 +198,7 @@ public class CustomerPage extends BasePage {
         String url = WebUI.getCurrentURL();
         LogUtils.info(url);
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx", "Customer");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"), "Customer");
         excelHelper.setCellData(url,"URL_Customer",1);
     }
 

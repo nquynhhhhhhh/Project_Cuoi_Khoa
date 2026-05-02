@@ -2,6 +2,7 @@ package com.nhuquynh.testcases;
 
 import com.nhuquynh.common.BaseTest;
 import com.nhuquynh.helpers.ExcelHelper;
+import com.nhuquynh.helpers.PropertiesHelper;
 import com.nhuquynh.pages.CustomerPage;
 import com.nhuquynh.pages.DashboardPage;
 import com.nhuquynh.pages.LoginPage;
@@ -12,14 +13,12 @@ import org.testng.annotations.Test;
 public class ProjectTest extends BaseTest {
     LoginPage loginPage;
     DashboardPage dashboardPage;
-    CustomerPage customerPage;
     ProjectPage projectPage;
-    ExcelHelper excelHelper;
 
     @BeforeMethod
     public void getExcelData(){
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx","Project");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"),"Project");
     }
 
     @Test()

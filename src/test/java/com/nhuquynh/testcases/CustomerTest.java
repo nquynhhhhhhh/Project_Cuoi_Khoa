@@ -1,6 +1,7 @@
 package com.nhuquynh.testcases;
 
 import com.nhuquynh.helpers.ExcelHelper;
+import com.nhuquynh.helpers.PropertiesHelper;
 import com.nhuquynh.pages.CustomerPage;
 import com.nhuquynh.pages.DashboardPage;
 import com.nhuquynh.pages.LoginPage;
@@ -13,12 +14,11 @@ public class CustomerTest extends BaseTest {
     LoginPage loginPage;
     DashboardPage dashboardPage;
     CustomerPage customerPage;
-    ExcelHelper excelHelper;
 
     @BeforeMethod
     public void getExcelData(){
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx","Customer");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"),"Customer");
     }
 
     @Test

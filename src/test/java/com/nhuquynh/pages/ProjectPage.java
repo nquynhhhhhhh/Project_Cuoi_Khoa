@@ -3,6 +3,7 @@ package com.nhuquynh.pages;
 import com.nhuquynh.common.BasePage;
 import com.nhuquynh.drivers.DriverManager;
 import com.nhuquynh.helpers.ExcelHelper;
+import com.nhuquynh.helpers.PropertiesHelper;
 import com.nhuquynh.keywords.WebUI;
 import com.nhuquynh.utils.LogUtils;
 import org.openqa.selenium.By;
@@ -12,21 +13,16 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 public class ProjectPage extends BasePage {
-    CustomerPage customerPage;
 //PROJECT PAGE
     private By inputSearchProject = By.xpath("//div[@id='projects_filter']//input");
     private By headerProjectPage = By.xpath("//span[normalize-space()='Projects Summary']");
     private By totalProjectInProgress = By.xpath("//span[normalize-space()='In Progress']/preceding-sibling::span");
     private By buttonAddNewProject = By.xpath("//a[normalize-space()='New Project']");
-    private By itemProjectCheck(String projectNumber, String projectName) {
-        By xpathProject = By.xpath("//tr[.//a[text()='"+ projectNumber +"'] and .//a[text()='"+ projectName +"']]");
-        return xpathProject;
-    }
-    private By itemOnTable(String projectName) {
-        By rowItem = By.xpath("(//tbody//tr//a[normalize-space()='" + projectName + "'])/ancestor::tr");
-        return rowItem;
-    }
-    private By itemProjectNumberCheck = By.xpath("//tbody/tr[1]/td[1]/a");
+//    private By itemOnTable(String projectName) {
+//        By xpathItem = By.xpath("(//tbody//tr//a[normalize-space()='" + projectName + "'])/ancestor::tr");
+//        return xpathItem;
+//    }
+    private By itemProjectNumberFirst = By.xpath("//tbody/tr[1]/td[1]/a");
     private By itemProjectNumberCheck(String projectNumber) {
         By xpathProjectNumber = By.xpath("//tbody//tr//a[normalize-space()='" + projectNumber + "']");
         return xpathProjectNumber;
@@ -45,7 +41,6 @@ public class ProjectPage extends BasePage {
     }
     private By popupDeleteSuccess = By.xpath("//span[normalize-space()='Project deleted']");
     private By emptyState = By.xpath("//td[normalize-space()='No matching records found']");
-
 //ADD NEW PROJECT
     private By titleAddNewProject = By.xpath("//a[normalize-space()='Project']/preceding::h4");
     private By inputProjectName = By.xpath("//input[@id='name']");
@@ -122,9 +117,10 @@ public class ProjectPage extends BasePage {
         String xpathDescription = "//div[contains(@class,'project-overview-description ')]//p[contains(.,'"+ description +"')]";
         return By.xpath(xpathDescription);
     }
+    private By buttonAddTaskOnProjectPage = By.xpath("//a[normalize-space()='New Task']");
 
 
-//===========================HÀM XỬ LÝ=================================
+    //===========================HÀM XỬ LÝ=================================
     public void verifyNavigateToProjectPage(){
         Assert.assertTrue(WebUI.checkElementExist(headerProjectPage),"The Project header page not dissplay.");
         Assert.assertEquals(WebUI.getElementText(headerProjectPage),"Projects Summary", "The Project header page not match");
@@ -136,7 +132,7 @@ public class ProjectPage extends BasePage {
     
     public void submitDataForNewProject(int row) {
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx","Project");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"),"Project");
         WebUI.waitForPageLoaded();
 
         WebUI.setText(inputProjectName, excelHelper.getCellData("Project_Name",row));
@@ -174,7 +170,7 @@ public class ProjectPage extends BasePage {
 
     public void searchProject(int row) {
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx", "Project");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"), "Project");
         WebUI.waitForPageLoaded();
 
         //Search và check item đầu tiên có đúng project mình muốn edit kh
@@ -182,18 +178,25 @@ public class ProjectPage extends BasePage {
         WebUI.setTextAndKey(inputSearchProject, excelHelper.getCellData("Project_Name", row), Keys.ENTER);
         WebUI.sleep(1);
         WebUI.waitForPageLoaded();
-        WebUI.waitForElementVisible(itemProjectNumberCheck);
-        String numberOnTable = WebUI.getElementText(itemProjectNumberCheck);
+        String numberOnTable = WebUI.getElementText(itemProjectNumberFirst);
         String numberFromExcel = excelHelper.getCellData("Project_Number", row);
+        WebUI.waitForElementVisible(itemProjectNumberCheck(numberOnTable));
         WebUI.assertEquals(numberOnTable, numberFromExcel, "The project not match");
 
-        WebUI.waitForElementVisible(itemProjectNameCheck(excelHelper.getCellData("Project_Number", row)));
-        WebUI.hoverElement(itemProjectNumberCheck(excelHelper.getCellData("Project_Number", row)));
+        WebUI.waitForElementVisible(itemProjectNameCheck(excelHelper.getCellData("Project_Name", row)));
+        WebUI.hoverElement(itemProjectNameCheck(excelHelper.getCellData("Project_Name", row)));
+    }
+
+    public void clickItemProject(int row){
+        ExcelHelper excelHelper = new ExcelHelper();
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"), "Project");
+
+        WebUI.clickElement(itemProjectNameCheck(excelHelper.getCellData("Project_Name", row)));
     }
 
     public void editProject(int row){
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx", "Project");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"), "Project");
 
         WebUI.clickElement(buttonEdit(excelHelper.getCellData("Project_Number", row)));
         WebUI.waitForPageLoaded();
@@ -222,7 +225,7 @@ public class ProjectPage extends BasePage {
 
     public void deleteProject(int row){
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx","Project");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"),"Project");
 
         WebUI.clickElement(buttonDelete(excelHelper.getCellData("Project_Number", row)));
         WebUI.acceptAlert();
@@ -234,16 +237,20 @@ public class ProjectPage extends BasePage {
 
     public void verifyProjectProfile(int row){
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx","Project");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"),"Project");
 
         WebUI.waitForPageLoaded();
+        LogUtils.info(WebUI.getElementText(titleProject));
         String projectNumber = WebUI.getElementText(overviewProjectNumber);
         excelHelper.setCellData(projectNumber,"Project_Number",row);
-        LogUtils.info(WebUI.getElementText(titleProject));
         WebUI.assertEquals(DriverManager.getDriver().findElement(overviewCustomer(excelHelper.getCellData("Customer",row))).getText(),excelHelper.getCellData("Customer",row),"The Customer not match");
     }
 
-
+    public TaskPage clickButtonAddTask(){
+        WebUI.waitForElementVisible(buttonAddTaskOnProjectPage);
+        WebUI.clickElement(buttonAddTaskOnProjectPage);
+        return new TaskPage();
+    }
 
 
 }

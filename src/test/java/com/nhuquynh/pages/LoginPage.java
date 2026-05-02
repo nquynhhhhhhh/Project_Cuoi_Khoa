@@ -21,8 +21,8 @@ public class LoginPage {
 
     public DashboardPage loginCRM() {
         WebUI.openURL(PropertiesHelper.getValue("URL"));
-        WebUI.setText(inputEmail, "admin@example.com");
-        WebUI.setText(inputPassword, "123456");
+        WebUI.setText(inputEmail, PropertiesHelper.getValue("EMAIL"));
+        WebUI.setText(inputPassword, PropertiesHelper.getValue("PASSWORD"));
         WebUI.clickElement(buttonLogin);
         verifyLoginSuccess();
         return new DashboardPage();
@@ -35,7 +35,7 @@ public class LoginPage {
         WebUI.clearText(inputPassword);
 
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx","Login");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"),"Login");
 
         WebUI.setText(inputEmail, excelHelper.getCellData("Email",1));
         WebUI.setText(inputPassword, excelHelper.getCellData("Password",1));
@@ -59,7 +59,7 @@ public class LoginPage {
         WebUI.clearText(inputPassword);
 
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx","Login");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"),"Login");
 
         WebUI.setText(inputEmail, excelHelper.getCellData("Email",2));
         WebUI.setText(inputPassword, excelHelper.getCellData("Password",2));
@@ -73,7 +73,7 @@ public class LoginPage {
         WebUI.clearText(inputPassword);
 
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx","Login");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"),"Login");
 
         WebUI.setText(inputEmail, excelHelper.getCellData("Email",3));
         WebUI.setText(inputPassword, excelHelper.getCellData("Password",3));
