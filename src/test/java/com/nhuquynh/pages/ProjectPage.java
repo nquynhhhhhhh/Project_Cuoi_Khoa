@@ -7,14 +7,14 @@ import com.nhuquynh.keywords.WebUI;
 import com.nhuquynh.utils.LogUtils;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 public class ProjectPage extends BasePage {
     CustomerPage customerPage;
-//Project Page
+//PROJECT PAGE
     private By inputSearchProject = By.xpath("//div[@id='projects_filter']//input");
-    private By buttonSearch = By.xpath("//span[@class='input-group-addon']");
     private By headerProjectPage = By.xpath("//span[normalize-space()='Projects Summary']");
     private By totalProjectInProgress = By.xpath("//span[normalize-space()='In Progress']/preceding-sibling::span");
     private By buttonAddNewProject = By.xpath("//a[normalize-space()='New Project']");
@@ -36,10 +36,15 @@ public class ProjectPage extends BasePage {
         return xpathProjectName;
     }
     private By buttonEdit(String projectName) {
-        By xpathButtonEdit = By.xpath("(//table[@id='projects']//tr//a[normalize-space()='" + projectName + "'])/following-sibling::div//a[normalize-space()='Edit']");
+        By xpathButtonEdit = By.xpath("//a[text()='"+ projectName +"']/ancestor::tr//a[contains(text(),'Edit')]");
         return xpathButtonEdit;
     }
-    private By buttonDelete = By.xpath("//tbody/tr[1]//a[contains(text(),'Delete')]");
+    private By buttonDelete(String projectName) {
+        By xpathButtonDelete = By.xpath("//a[text()='"+ projectName +"']/ancestor::tr//a[contains(text(),'Delete')]");
+        return xpathButtonDelete;
+    }
+    private By popupDeleteSuccess = By.xpath("//span[normalize-space()='Project deleted']");
+    private By emptyState = By.xpath("//td[normalize-space()='No matching records found']");
 
 //ADD NEW PROJECT
     private By titleAddNewProject = By.xpath("//a[normalize-space()='Project']/preceding::h4");
@@ -119,7 +124,7 @@ public class ProjectPage extends BasePage {
     }
 
 
-    //========================HÀM CHUNG===============================
+//===========================HÀM XỬ LÝ=================================
     public void verifyNavigateToProjectPage(){
         Assert.assertTrue(WebUI.checkElementExist(headerProjectPage),"The Project header page not dissplay.");
         Assert.assertEquals(WebUI.getElementText(headerProjectPage),"Projects Summary", "The Project header page not match");
@@ -173,8 +178,10 @@ public class ProjectPage extends BasePage {
         WebUI.waitForPageLoaded();
 
         //Search và check item đầu tiên có đúng project mình muốn edit kh
-        WebUI.setText(inputSearchProject, excelHelper.getCellData("Project_Number", row));
-        WebUI.clickElement(buttonSearch);
+        WebUI.clearText(inputSearchProject);
+        WebUI.setTextAndKey(inputSearchProject, excelHelper.getCellData("Project_Name", row), Keys.ENTER);
+        WebUI.sleep(1);
+        WebUI.waitForPageLoaded();
         WebUI.waitForElementVisible(itemProjectNumberCheck);
         String numberOnTable = WebUI.getElementText(itemProjectNumberCheck);
         String numberFromExcel = excelHelper.getCellData("Project_Number", row);
@@ -182,14 +189,16 @@ public class ProjectPage extends BasePage {
 
         WebUI.waitForElementVisible(itemProjectNameCheck(excelHelper.getCellData("Project_Number", row)));
         WebUI.hoverElement(itemProjectNumberCheck(excelHelper.getCellData("Project_Number", row)));
-        WebUI.clickElement(buttonEdit(excelHelper.getCellData("Project_Number", row)));
     }
 
     public void editProject(int row){
         ExcelHelper excelHelper = new ExcelHelper();
         excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx", "Project");
+
+        WebUI.clickElement(buttonEdit(excelHelper.getCellData("Project_Number", row)));
         WebUI.waitForPageLoaded();
 
+        WebUI.clearText(inputProjectName);
         WebUI.setText(inputProjectName, excelHelper.getCellData("Project_Name",row));
         WebUI.clickElement(dropdownCustomer);
         WebUI.setText(inputSearchCustomerProject, excelHelper.getCellData("Customer",row));
@@ -203,19 +212,7 @@ public class ProjectPage extends BasePage {
         js.executeScript("arguments[0].scrollIntoView(true);", element);
         WebUI.clearText(inputEstimatedHours);
         WebUI.setText(inputEstimatedHours, excelHelper.getCellData("Estimated_Hours",row));
-//        WebUI.clickElement(dropdownMember);
-//        WebUI.clickElement(buttonDeselectAll);
-//        WebUI.clickElement(buttonSelectAll);
-//        WebUI.clickElement(dropdownMember);
-//        WebUI.clickElement(inputStartDate);
-//        WebUI.sleep(1);
-//        WebUI.clearText(inputStartDate);
-//        WebUI.setText(inputStartDate,excelHelper.getCellData("Start_Date",row));
-//        WebUI.sleep(1);
-//        WebUI.clickElement(inputDeadline);
-//        WebUI.clearText(inputDeadline);
-//        WebUI.setText(inputDeadline,excelHelper.getCellData("Deadline",row));
-        WebUI.clickElement(iconCloseTag);
+        //WebUI.clickElement(iconCloseTag);
         WebUI.setText(inputTags, excelHelper.getCellData("Tags",row));
         WebUI.sleep(2);
         WebUI.setTextOnFrameDescription(inputDescription, excelHelper.getCellData("Description",row));
@@ -223,6 +220,17 @@ public class ProjectPage extends BasePage {
         WebUI.clickElement(buttonSaveProject);
     }
 
+    public void deleteProject(int row){
+        ExcelHelper excelHelper = new ExcelHelper();
+        excelHelper.setExcelFile("src/test/resources/dataTest/dataProjectCuoiKhoa.xlsx","Project");
+
+        WebUI.clickElement(buttonDelete(excelHelper.getCellData("Project_Number", row)));
+        WebUI.acceptAlert();
+        WebUI.waitForPageLoaded();
+        WebUI.getElementText(popupDeleteSuccess);
+        WebUI.setTextAndKey(inputSearchProject, excelHelper.getCellData("Project_Name", row), Keys.ENTER);
+        WebUI.getElementText(emptyState);
+    }
 
     public void verifyProjectProfile(int row){
         ExcelHelper excelHelper = new ExcelHelper();
@@ -230,11 +238,9 @@ public class ProjectPage extends BasePage {
 
         WebUI.waitForPageLoaded();
         String projectNumber = WebUI.getElementText(overviewProjectNumber);
-        LogUtils.info(projectNumber);
         excelHelper.setCellData(projectNumber,"Project_Number",row);
-        LogUtils.info(WebUI.getWebElement(titleProject));
+        LogUtils.info(WebUI.getElementText(titleProject));
         WebUI.assertEquals(DriverManager.getDriver().findElement(overviewCustomer(excelHelper.getCellData("Customer",row))).getText(),excelHelper.getCellData("Customer",row),"The Customer not match");
-
     }
 
 

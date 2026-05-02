@@ -29,11 +29,11 @@ public class CustomerTest extends BaseTest {
         customerPage.verifyNavigateToCustomerPage();
         int berofeTotal = customerPage.getCustomersTotal();
         customerPage.clickButtonAddNewCustomer();
-        customerPage.submitDataForNewCustomer(1);
+        customerPage.submitDataForNewCustomer(2);
         customerPage.verifyNavigateToCustomerDetailPage();
         //Lấy URL để check bên Project Page
         customerPage.getAndSetURLCustomer();
-        customerPage.verifyAddNewCustomerSuccess(1);
+        customerPage.verifyAddNewCustomerSuccess(2);
         customerPage.clickMenuCustomer();
 
         int afterTotal = customerPage.getCustomersTotal();

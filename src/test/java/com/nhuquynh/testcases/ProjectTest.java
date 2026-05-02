@@ -29,8 +29,8 @@ public class ProjectTest extends BaseTest {
         projectPage = dashboardPage.clickMenuProject();
         projectPage.verifyNavigateToProjectPage();
         projectPage.clickButtonAddNewProject();
-        projectPage.submitDataForNewProject(3);
-        projectPage.verifyProjectProfile(3);
+        projectPage.submitDataForNewProject(1);
+        projectPage.verifyProjectProfile(1);
     }
 
     @Test
@@ -38,9 +38,28 @@ public class ProjectTest extends BaseTest {
         loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         projectPage = dashboardPage.clickMenuProject();
-        projectPage.searchProject(3);
-        projectPage.editProject(4);
+        projectPage.verifyNavigateToProjectPage();
+        projectPage.clickButtonAddNewProject();
+        projectPage.submitDataForNewProject(2);
+        projectPage.verifyProjectProfile(2);
+        projectPage = dashboardPage.clickMenuProject();
+        projectPage.searchProject(2);
+        projectPage.editProject(3);
+        projectPage.verifyProjectProfile(3);
+    }
+
+    @Test
+    public void testDeleteProject() {
+        loginPage = new LoginPage();
+        dashboardPage = loginPage.loginCRM();
+        projectPage = dashboardPage.clickMenuProject();
+        projectPage.verifyNavigateToProjectPage();
+        projectPage.clickButtonAddNewProject();
+        projectPage.submitDataForNewProject(4);
         projectPage.verifyProjectProfile(4);
+        projectPage = dashboardPage.clickMenuProject();
+        projectPage.searchProject(4);
+        projectPage.deleteProject(4);
     }
 
 

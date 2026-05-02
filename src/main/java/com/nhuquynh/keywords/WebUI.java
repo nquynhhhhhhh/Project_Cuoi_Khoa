@@ -351,6 +351,14 @@ public class WebUI {
         DriverManager.getDriver().switchTo().defaultContent();
     }
 
+    public static void acceptAlert(){
+        DriverManager.getDriver().switchTo().alert().accept();
+    }
+
+    public static void dismissAlert(){
+        DriverManager.getDriver().switchTo().alert().dismiss();
+    }
+
     public static void setTextAndKey(By by, String value, Keys key) {
         waitForPageLoaded();
         getWebElement(by).sendKeys(value, key);
@@ -521,7 +529,6 @@ public class WebUI {
         boolean check = actual.equals(expected);
         return check;
     }
-
 
     public static void assertEquals(Object actual, Object expected, String message) {
         waitForPageLoaded();
