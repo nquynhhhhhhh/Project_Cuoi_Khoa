@@ -9,7 +9,6 @@ import org.openqa.selenium.By;
 import org.testng.Assert;
 
 public class LoginPage {
-
     //Khai báo các element dạng đối tượng By (phương thức tìm kiếm)
     private By headerPage = By.xpath("//h1[normalize-space()='Login']");
     private By inputEmail = By.xpath("//input[@id='email']");
@@ -35,10 +34,10 @@ public class LoginPage {
         WebUI.clearText(inputPassword);
 
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"),"Login");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"), "Login");
 
-        WebUI.setText(inputEmail, excelHelper.getCellData("Email",1));
-        WebUI.setText(inputPassword, excelHelper.getCellData("Password",1));
+        WebUI.setText(inputEmail, excelHelper.getCellData("Email", 1));
+        WebUI.setText(inputPassword, excelHelper.getCellData("Password", 1));
         WebUI.clickElement(buttonLogin);
     }
 
@@ -59,10 +58,10 @@ public class LoginPage {
         WebUI.clearText(inputPassword);
 
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"),"Login");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"), "Login");
 
-        WebUI.setText(inputEmail, excelHelper.getCellData("Email",2));
-        WebUI.setText(inputPassword, excelHelper.getCellData("Password",2));
+        WebUI.setText(inputEmail, excelHelper.getCellData("Email", 2));
+        WebUI.setText(inputPassword, excelHelper.getCellData("Password", 2));
         WebUI.clickElement(buttonLogin);
     }
 
@@ -73,22 +72,22 @@ public class LoginPage {
         WebUI.clearText(inputPassword);
 
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"),"Login");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"), "Login");
 
-        WebUI.setText(inputEmail, excelHelper.getCellData("Email",3));
-        WebUI.setText(inputPassword, excelHelper.getCellData("Password",3));
+        WebUI.setText(inputEmail, excelHelper.getCellData("Email", 3));
+        WebUI.setText(inputPassword, excelHelper.getCellData("Password", 3));
         WebUI.clickElement(buttonLogin);
     }
 
     public void verifyLoginSuccess() {
         WebUI.waitForPageLoaded();
-        WebUI.assertNotContains(WebUI.getCurrentURL(),"authentication", "FAIL. Vẫn đang ở trang Login");
+        WebUI.assertNotContains(WebUI.getCurrentURL(), "authentication", "FAIL. Vẫn đang ở trang Login");
     }
 
     public void verifyLoginFail(String message) {
-        WebUI.assertContains(WebUI.getCurrentURL(),"authentication", "FAIL. Vẫn đang ở trang Login");
+        WebUI.assertContains(WebUI.getCurrentURL(), "authentication", "FAIL. Vẫn đang ở trang Login");
         Assert.assertTrue(DriverManager.getDriver().findElement(errorMessage).isDisplayed(), "Error message NOT displays");
-        WebUI.assertEquals(WebUI.getElementText(errorMessage),"Invalid email or password", message);
+        WebUI.assertEquals(WebUI.getElementText(errorMessage), "Invalid email or password", message);
     }
 
 }

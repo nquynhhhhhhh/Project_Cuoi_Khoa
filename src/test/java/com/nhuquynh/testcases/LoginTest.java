@@ -14,20 +14,20 @@ public class LoginTest extends BaseTest {
     LoginPage loginPage;
 
     @BeforeMethod
-    public void getExcelData(){
+    public void getExcelData() {
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"),"Login");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"), "Login");
     }
 
     @Test(priority = 1)
-    public void loginSuccess(){
+    public void loginSuccess() {
         loginPage = new LoginPage();
         loginPage.loginCRMSuccessWithDataExcel();
         loginPage.verifyLoginSuccess();
     }
 
     @Test(priority = 2)
-    public void loginFailWithEmailInvalid(){
+    public void loginFailWithEmailInvalid() {
         CaptureHelper.startRecord("loginFailWithEmailInvalid");
 
         loginPage = new LoginPage();
@@ -36,7 +36,7 @@ public class LoginTest extends BaseTest {
     }
 
     @Test(priority = 3)
-    public void loginFailWithPassInvalid(){
+    public void loginFailWithPassInvalid() {
         CaptureHelper.startRecord("loginFailWithPassInvalid");
 
         loginPage = new LoginPage();
@@ -45,9 +45,9 @@ public class LoginTest extends BaseTest {
     }
 
     @Test(dataProvider = "data_provider_login_excel", dataProviderClass = DataProviderFactory.class)
-    public void loginSuccessFromDataProvider(String testcase, String email, String password){
+    public void loginSuccessFromDataProvider(String testcase, String email, String password) {
         loginPage = new LoginPage();
-        loginPage.loginCRMSuccessWithDataProvider(testcase, email,password);
+        loginPage.loginCRMSuccessWithDataProvider(testcase, email, password);
         loginPage.verifyLoginSuccess();
     }
 

@@ -29,9 +29,9 @@ public class TaskTest extends BaseTest {
         projectPage = dashboardPage.clickMenuProject();
         projectPage.searchProject(1);
         projectPage.clickItemProject(1);
-        projectPage.verifyNavigateToProjectPage();
+        projectPage.verifyProjectProfile(1);
         taskPage = projectPage.clickButtonAddTask();
-
+        taskPage.addTask_ProjectPage(1);
 
     }
 
@@ -41,7 +41,7 @@ public class TaskTest extends BaseTest {
         dashboardPage = loginPage.loginCRM();
         taskPage = dashboardPage.clickMenuTask();
         taskPage.clickAddTask();
-
+        taskPage.addTask_TaskPage(2);
 
 
     }

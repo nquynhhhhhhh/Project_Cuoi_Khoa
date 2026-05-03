@@ -12,7 +12,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 public class CustomerPage extends BasePage {
-//ADD NEW CUSTOMER
+    //ADD NEW CUSTOMER
     private By menuCustomers = By.xpath("//span[normalize-space()='Customers']");
     private By headerCustomerPage = By.xpath("//span[normalize-space()='Customers Summary']");
     private By buttonAddNewCustomer = By.xpath("//a[normalize-space()='New Customer']");
@@ -57,149 +57,151 @@ public class CustomerPage extends BasePage {
     private By buttonSaveAndCreate = By.xpath("//button[normalize-space()='Save and create contact']");
     private By buttonSave = By.xpath("//div[@id='profile-save-section']//button[normalize-space()='Save']");
     private By errorCompany = By.xpath("//p[@id='company-error']");
-//ADD NEW CUSTOMER SUCCESS
+
+    //ADD NEW CUSTOMER SUCCESS
     private By alertAddSuccess = By.xpath("//div[@id='alert_float_1']/span[normalize-space()='Customer added successfully.']");
     private By itemCustomerFirst = By.xpath("//table[@id='clients']/tbody/tr[1]/td[3]/a");
     private By headerCustomerDetailPage = By.xpath("//h4[normalize-space()='Profile']");
+
     //total in customer list
     private By totalCustomers = By.xpath("//span[normalize-space()='Total Customers']/preceding-sibling::span");
 
 
     //========================HÀM CHUNG===============================
-    public void verifyNavigateToCustomerPage(){
-        Assert.assertTrue(WebUI.checkElementExist(headerCustomerPage),"The customer header page not dissplay.");
-        Assert.assertEquals(WebUI.getElementText(headerCustomerPage),"Customers Summary", "The cusomer header page not match");
+    public void verifyNavigateToCustomerPage() {
+        Assert.assertTrue(WebUI.checkElementExist(headerCustomerPage), "The customer header page not dissplay.");
+        Assert.assertEquals(WebUI.getElementText(headerCustomerPage), "Customers Summary", "The cusomer header page not match");
     }
 
-    public void clickButtonAddNewCustomer(){
+    public void clickButtonAddNewCustomer() {
         WebUI.clickElement(buttonAddNewCustomer);
     }
 
-    public void submitDataForNewCustomer(int row){
+    public void submitDataForNewCustomer(int row) {
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"),"Customer");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"), "Customer");
         WebUI.waitForPageLoaded();
 
-        WebUI.setText(inputCompany, excelHelper.getCellData("Company",row));
-        WebUI.setText(inputVAT, excelHelper.getCellData("VAT",row));
-        WebUI.setText(inputPhoneNumber, excelHelper.getCellData("Phone",row));
-        WebUI.setText(inputWebsite,excelHelper.getCellData("Website",row));
+        WebUI.setText(inputCompany, excelHelper.getCellData("Company", row));
+        WebUI.setText(inputVAT, excelHelper.getCellData("VAT", row));
+        WebUI.setText(inputPhoneNumber, excelHelper.getCellData("Phone", row));
+        WebUI.setText(inputWebsite, excelHelper.getCellData("Website", row));
         WebUI.sleep(1);
         JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
         WebElement element = DriverManager.getDriver().findElement(labelGroup);
         js.executeScript("arguments[0].scrollIntoView(true);", element);
         WebUI.clickElement(dropdownGroup);
-        WebUI.setText(inputSearchGroup,excelHelper.getCellData("Groups",row));
-        WebUI.clickElement(itemGroup(excelHelper.getCellData("Groups",row)));
+        WebUI.setText(inputSearchGroup, excelHelper.getCellData("Groups", row));
+        WebUI.clickElement(itemGroup(excelHelper.getCellData("Groups", row)));
         WebUI.clickElement(dropdownGroup);
         WebUI.sleep(1);
         WebUI.clickElement(dropdownLanguage);
-        WebUI.clickElement(itemLanguage(excelHelper.getCellData("Language",row)));
-        WebUI.setText(inputAddress,excelHelper.getCellData("Address",row));
-        WebUI.setText(inputCity,excelHelper.getCellData("City",row));
-        WebUI.setText(inputState,excelHelper.getCellData("State",row));
-        WebUI.setText(inputZip,excelHelper.getCellData("Zip_Code",row));
+        WebUI.clickElement(itemLanguage(excelHelper.getCellData("Language", row)));
+        WebUI.setText(inputAddress, excelHelper.getCellData("Address", row));
+        WebUI.setText(inputCity, excelHelper.getCellData("City", row));
+        WebUI.setText(inputState, excelHelper.getCellData("State", row));
+        WebUI.setText(inputZip, excelHelper.getCellData("Zip_Code", row));
         WebUI.sleep(1);
         WebUI.clickElement(dropdownCountry);
-        WebUI.setText(inputSearchCountry,excelHelper.getCellData("Country",row));
-        WebUI.clickElement(itemCountry(excelHelper.getCellData("Country",row)));
+        WebUI.setText(inputSearchCountry, excelHelper.getCellData("Country", row));
+        WebUI.clickElement(itemCountry(excelHelper.getCellData("Country", row)));
         WebUI.clickElement(buttonSave);
         WebUI.sleep(1);
         //verify alert message
-        WebUI.assertEquals(DriverManager.getDriver().findElement(alertAddSuccess).getText(),"Customer added successfully.","The Customer add failed");
+        WebUI.assertEquals(DriverManager.getDriver().findElement(alertAddSuccess).getText(), "Customer added successfully.", "The Customer add failed");
     }
 
     public void submitData_WithNullCompany(int row) {
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"),"Customer");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"), "Customer");
         WebUI.waitForPageLoaded();
 
-        WebUI.setText(inputVAT, excelHelper.getCellData("VAT",row));
-        WebUI.setText(inputPhoneNumber, excelHelper.getCellData("Phone",row));
-        WebUI.setText(inputWebsite,excelHelper.getCellData("Website",row));
+        WebUI.setText(inputVAT, excelHelper.getCellData("VAT", row));
+        WebUI.setText(inputPhoneNumber, excelHelper.getCellData("Phone", row));
+        WebUI.setText(inputWebsite, excelHelper.getCellData("Website", row));
         WebUI.sleep(1);
         JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
         WebElement element = DriverManager.getDriver().findElement(labelGroup);
         js.executeScript("arguments[0].scrollIntoView(true);", element);
         WebUI.clickElement(dropdownGroup);
-        WebUI.setText(inputSearchGroup,excelHelper.getCellData("Groups",row));
-        WebUI.setText(inputSearchGroup,excelHelper.getCellData("Groups",row));
+        WebUI.setText(inputSearchGroup, excelHelper.getCellData("Groups", row));
+        WebUI.setText(inputSearchGroup, excelHelper.getCellData("Groups", row));
         WebUI.clickElement(dropdownGroup);
         WebUI.sleep(1);
         WebUI.clickElement(dropdownCurrency);
-        WebUI.setText(inputSearchCurrency,excelHelper.getCellData("Currency",row));
-        WebUI.clickElement(itemCurrency(excelHelper.getCellData("Currency",row)));
+        WebUI.setText(inputSearchCurrency, excelHelper.getCellData("Currency", row));
+        WebUI.clickElement(itemCurrency(excelHelper.getCellData("Currency", row)));
         WebUI.clickElement(dropdownLanguage);
-        WebUI.clickElement(itemLanguage(excelHelper.getCellData("Language",row)));
-        WebUI.setText(inputAddress,excelHelper.getCellData("Address",row));
-        WebUI.setText(inputCity,excelHelper.getCellData("City",row));
-        WebUI.setText(inputState,excelHelper.getCellData("State",row));
-        WebUI.setText(inputZip,excelHelper.getCellData("Zip_Code",row));
+        WebUI.clickElement(itemLanguage(excelHelper.getCellData("Language", row)));
+        WebUI.setText(inputAddress, excelHelper.getCellData("Address", row));
+        WebUI.setText(inputCity, excelHelper.getCellData("City", row));
+        WebUI.setText(inputState, excelHelper.getCellData("State", row));
+        WebUI.setText(inputZip, excelHelper.getCellData("Zip_Code", row));
         WebUI.sleep(1);
         WebUI.clickElement(dropdownCountry);
-        WebUI.setText(inputSearchCountry,excelHelper.getCellData("Country",row));
-        WebUI.clickElement(itemCountry(excelHelper.getCellData("Country",row)));
+        WebUI.setText(inputSearchCountry, excelHelper.getCellData("Country", row));
+        WebUI.clickElement(itemCountry(excelHelper.getCellData("Country", row)));
         WebUI.clickElement(buttonSave);
         WebElement element2 = DriverManager.getDriver().findElement(labelCompany);
         js.executeScript("arguments[0].scrollIntoView(true);", element2);
-        WebUI.assertEquals(WebUI.getElementText(errorCompany),"This field is required.","The error company not match");
+        WebUI.assertEquals(WebUI.getElementText(errorCompany), "This field is required.", "The error company not match");
         WebUI.sleep(1);
-        WebUI.assertEquals(WebUI.getCurrentURL(),"https://crm.anhtester.com/admin/clients/client", "FAIL. Vẫn tạo Customer dù không đin Company");
+        WebUI.assertEquals(WebUI.getCurrentURL(), "https://crm.anhtester.com/admin/clients/client", "FAIL. Vẫn tạo Customer dù không đin Company");
     }
 
-    public void verifyNavigateToCustomerDetailPage(){
-        Assert.assertTrue(WebUI.checkElementExist(headerCustomerDetailPage),"The customer detail header page not dissplay.");
-        WebUI.assertEquals(WebUI.getElementText(headerCustomerDetailPage),"Profile", "The cusomer detail header page not match");
+    public void verifyNavigateToCustomerDetailPage() {
+        Assert.assertTrue(WebUI.checkElementExist(headerCustomerDetailPage), "The customer detail header page not dissplay.");
+        WebUI.assertEquals(WebUI.getElementText(headerCustomerDetailPage), "Profile", "The cusomer detail header page not match");
     }
 
-    public void verifyAddNewCustomerSuccess(int row){
+    public void verifyAddNewCustomerSuccess(int row) {
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"),"Customer");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"), "Customer");
 
         //verify data
-        WebUI.assertEquals(DriverManager.getDriver().findElement(inputCompany).getAttribute("value"),excelHelper.getCellData("Company",row),"The Company Name not match");
-        WebUI.assertEquals(DriverManager.getDriver().findElement(inputVAT).getAttribute("value"),excelHelper.getCellData("VAT",row),"The VAT value not match");
-        WebUI.assertEquals(DriverManager.getDriver().findElement(inputPhoneNumber).getAttribute("value"),excelHelper.getCellData("Phone",row),"The Phone Number not match");
-        WebUI.assertEquals(DriverManager.getDriver().findElement(inputWebsite).getAttribute("value"),excelHelper.getCellData("Website",row),"The Webside not match");
-        WebUI.assertEquals(DriverManager.getDriver().findElement(dropdownGroup).getAttribute("title"),excelHelper.getCellData("Groups",row),"The Group not match");
-        WebUI.assertEquals(DriverManager.getDriver().findElement(dropdownLanguage).getAttribute("title"),excelHelper.getCellData("Language",row),"The Language not match");
-        WebUI.assertEquals(DriverManager.getDriver().findElement(inputAddress).getText(),excelHelper.getCellData("Address",row),"The Address not match");
-        WebUI.assertEquals(DriverManager.getDriver().findElement(inputCity).getAttribute("value"),excelHelper.getCellData("City",row),"The City not match");
-        WebUI.assertEquals(DriverManager.getDriver().findElement(inputState).getAttribute("value"),excelHelper.getCellData("State",row),"The State not match");
-        WebUI.assertEquals(DriverManager.getDriver().findElement(inputZip).getAttribute("value"),excelHelper.getCellData("Zip_Code",row),"The Zip Code not match");
-        WebUI.assertEquals(DriverManager.getDriver().findElement(dropdownCountry).getAttribute("title"),excelHelper.getCellData("Country",row),"The Country not match");
+        WebUI.assertEquals(DriverManager.getDriver().findElement(inputCompany).getAttribute("value"), excelHelper.getCellData("Company", row), "The Company Name not match");
+        WebUI.assertEquals(DriverManager.getDriver().findElement(inputVAT).getAttribute("value"), excelHelper.getCellData("VAT", row), "The VAT value not match");
+        WebUI.assertEquals(DriverManager.getDriver().findElement(inputPhoneNumber).getAttribute("value"), excelHelper.getCellData("Phone", row), "The Phone Number not match");
+        WebUI.assertEquals(DriverManager.getDriver().findElement(inputWebsite).getAttribute("value"), excelHelper.getCellData("Website", row), "The Webside not match");
+        WebUI.assertEquals(DriverManager.getDriver().findElement(dropdownGroup).getAttribute("title"), excelHelper.getCellData("Groups", row), "The Group not match");
+        WebUI.assertEquals(DriverManager.getDriver().findElement(dropdownLanguage).getAttribute("title"), excelHelper.getCellData("Language", row), "The Language not match");
+        WebUI.assertEquals(DriverManager.getDriver().findElement(inputAddress).getText(), excelHelper.getCellData("Address", row), "The Address not match");
+        WebUI.assertEquals(DriverManager.getDriver().findElement(inputCity).getAttribute("value"), excelHelper.getCellData("City", row), "The City not match");
+        WebUI.assertEquals(DriverManager.getDriver().findElement(inputState).getAttribute("value"), excelHelper.getCellData("State", row), "The State not match");
+        WebUI.assertEquals(DriverManager.getDriver().findElement(inputZip).getAttribute("value"), excelHelper.getCellData("Zip_Code", row), "The Zip Code not match");
+        WebUI.assertEquals(DriverManager.getDriver().findElement(dropdownCountry).getAttribute("title"), excelHelper.getCellData("Country", row), "The Country not match");
     }
 
-    public void searchAndCheckCustomerInTable(int row){
+    public void searchAndCheckCustomerInTable(int row) {
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"),"Customer");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"), "Customer");
 
         clickMenuCustomer();
-        WebUI.setText(inputSearchCustomer,excelHelper.getCellData("Company",row));
+        WebUI.setText(inputSearchCustomer, excelHelper.getCellData("Company", row));
         WebUI.sleep(2);
         String customerNameInTable = WebUI.getElementText(itemCustomerFirst);
-        LogUtils.info(customerNameInTable);
-        WebUI.assertEquals(customerNameInTable,excelHelper.getCellData("Company",row),"The customer name in table not match");
+        WebUI.logConsole(customerNameInTable);
+        WebUI.assertEquals(customerNameInTable, excelHelper.getCellData("Company", row), "The customer name in table not match");
     }
 
-    public int getCustomersTotal(){
+    public int getCustomersTotal() {
         String totalString = WebUI.getElementText(totalCustomers);
-        LogUtils.info("Total Customers: " + totalCustomers);
+        WebUI.logConsole("Total Customers: " + totalCustomers);
         return Integer.parseInt(totalString);
     }
 
     public void setStatus() {
         ExcelHelper excelHelper = new ExcelHelper();
         excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"), "Customer");
-        excelHelper.setCellData("Passed","Status",1);
+        excelHelper.setCellData("Passed", "Status", 1);
     }
 
     public void getAndSetURLCustomer() {
         String url = WebUI.getCurrentURL();
-        LogUtils.info(url);
+        WebUI.logConsole(url);
         ExcelHelper excelHelper = new ExcelHelper();
         excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"), "Customer");
-        excelHelper.setCellData(url,"URL_Customer",1);
+        excelHelper.setCellData(url, "URL_Customer", 1);
     }
 
 }

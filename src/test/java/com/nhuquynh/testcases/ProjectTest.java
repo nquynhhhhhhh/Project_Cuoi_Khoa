@@ -16,9 +16,9 @@ public class ProjectTest extends BaseTest {
     ProjectPage projectPage;
 
     @BeforeMethod
-    public void getExcelData(){
+    public void getExcelData() {
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"),"Project");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"), "Project");
     }
 
     @Test()
@@ -33,7 +33,7 @@ public class ProjectTest extends BaseTest {
     }
 
     @Test
-    public void testEditProject(){
+    public void testEditProject() {
         loginPage = new LoginPage();
         dashboardPage = loginPage.loginCRM();
         projectPage = dashboardPage.clickMenuProject();
@@ -60,7 +60,6 @@ public class ProjectTest extends BaseTest {
         projectPage.searchProject(4);
         projectPage.deleteProject(4);
     }
-
 
 
 }

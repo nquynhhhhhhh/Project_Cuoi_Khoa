@@ -5,12 +5,12 @@ import com.nhuquynh.pages.LoginPage;
 import com.nhuquynh.common.BaseTest;
 import org.testng.annotations.Test;
 
-public class DashboardTest extends BaseTest{
+public class DashboardTest extends BaseTest {
     LoginPage loginPage;
     DashboardPage dashboardPage;
 
     @Test
-    public void checkDashboardTotal(){
+    public void checkDashboardTotal() {
         loginPage = new LoginPage();
 
         dashboardPage = loginPage.loginCRM();

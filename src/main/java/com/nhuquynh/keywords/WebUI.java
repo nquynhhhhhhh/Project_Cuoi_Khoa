@@ -46,7 +46,8 @@ public class WebUI {
             js.executeScript("arguments[0].scrollIntoView(true);", elementCheck);
             WebUI.sleep(1);
             LogUtils.info(value + " - " + elementCheck.getText());
-            Assert.assertTrue(SystemHelper.removeSpecialCharacters(elementCheck.getText()).toUpperCase().contains(SystemHelper.removeSpecialCharacters(value).toUpperCase()), "Dòng số " + i + " không chứa giá trị tìm kiếm.");        }
+            Assert.assertTrue(SystemHelper.removeSpecialCharacters(elementCheck.getText()).toUpperCase().contains(SystemHelper.removeSpecialCharacters(value).toUpperCase()), "Dòng số " + i + " không chứa giá trị tìm kiếm.");
+        }
 
     }
 
@@ -140,7 +141,7 @@ public class WebUI {
         JavascriptExecutor js = (JavascriptExecutor) DriverManager.getDriver();
 
         //Wait for Javascript to load
-        ExpectedCondition< Boolean > jsLoad = new ExpectedCondition < Boolean > () {
+        ExpectedCondition<Boolean> jsLoad = new ExpectedCondition<Boolean>() {
             @Override
             public Boolean apply(WebDriver driver) {
                 return js.executeScript("return document.readyState").toString().equals("complete");
@@ -165,13 +166,13 @@ public class WebUI {
 
     public static void sleep(double second) {
         try {
-            Thread.sleep((long)(1000 * second));
+            Thread.sleep((long) (1000 * second));
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public static void uploadFileWithRobotClass(By elementFileForm, String filepath){
+    public static void uploadFileWithRobotClass(By elementFileForm, String filepath) {
         //Click để mở form upload
         WebUI.clickElement(elementFileForm);
         WebUI.sleep(2);
@@ -257,17 +258,32 @@ public class WebUI {
     public static boolean isElementDisplayed(By by) {
         try {
             WebElement element = DriverManager.getDriver().findElement(by);
+            LogUtils.info("Displayed element " + by);
             return element.isDisplayed();
         } catch (Exception e) {
             return false;
         }
     }
 
+    public static boolean isElementNotDisplayed(By by) {
+        // Lấy danh sách các element khớp với locator
+        List<WebElement> elements = DriverManager.getDriver().findElements(by);
+
+        // Nếu danh sách rỗng HOẶC element tồn tại nhưng bị ẩn (isDisplayed == false)
+        if (elements.size() == 0 || !elements.get(0).isDisplayed()) {
+            LogUtils.info("Element " + by + " is not displayed");
+            return true; // Trả về true vì đúng là nó không hiển thị
+        }
+
+        LogUtils.info("Element " + by + " is still displayed");
+        return false;
+    }
+
     @Step("Open URL: {0}")
     public static void openURL(String url) {
         DriverManager.getDriver().get(url);
         sleep(STEP_TIME);
-        LogUtils.info("\uD83C\uDF0E " +"Open URL:  " + url);
+        LogUtils.info("\uD83C\uDF0E " + "Open URL:  " + url);
         ExtentTestManager.logMessage(Status.PASS, "Open URL: " + url);
     }
 
@@ -342,7 +358,7 @@ public class WebUI {
     }
 
     @Step("Set text {2} on Description")
-    public static void setTextOnFrameDescription(By by, String text){
+    public static void setTextOnFrameDescription(By by, String text) {
         // Switch vào iframe Description
         DriverManager.getDriver().switchTo().frame("description_ifr");
         // Sau đó mới sendKeys được
@@ -351,11 +367,11 @@ public class WebUI {
         DriverManager.getDriver().switchTo().defaultContent();
     }
 
-    public static void acceptAlert(){
+    public static void acceptAlert() {
         DriverManager.getDriver().switchTo().alert().accept();
     }
 
-    public static void dismissAlert(){
+    public static void dismissAlert() {
         DriverManager.getDriver().switchTo().alert().dismiss();
     }
 
@@ -363,6 +379,10 @@ public class WebUI {
         waitForPageLoaded();
         getWebElement(by).sendKeys(value, key);
         LogUtils.info("Set text: " + value + " on element " + by);
+    }
+
+    public static void logConsole(Object message) {
+        LogUtils.info(message);
     }
 
     public static void scrollToElement(By by) {
@@ -547,7 +567,7 @@ public class WebUI {
     public static void assertContains(String actual, String expected, String message) {
         waitForPageLoaded();
         LogUtils.info("Assert contains: " + actual + " and " + expected);
-        ExtentTestManager.logMessage(Status.INFO,"Assert contains: " + actual + " and " + expected);
+        ExtentTestManager.logMessage(Status.INFO, "Assert contains: " + actual + " and " + expected);
         boolean check = actual.contains(expected);
         Assert.assertTrue(check, message);
     }
@@ -555,21 +575,21 @@ public class WebUI {
     public static void assertNotContains(String actual, String expected, String message) {
         waitForPageLoaded();
         LogUtils.info("Assert NOT contains: " + actual + " ↔\uFE0F " + expected);
-        ExtentTestManager.logMessage(Status.INFO,"Assert NOT contains: " + actual + " ↔\uFE0F " + expected);
+        ExtentTestManager.logMessage(Status.INFO, "Assert NOT contains: " + actual + " ↔\uFE0F " + expected);
 
         boolean check = actual.contains(expected);
         Assert.assertFalse(check, message);
     }
 
-    public static String getCurrentURL(){
+    public static String getCurrentURL() {
         return DriverManager.getDriver().getCurrentUrl();
     }
 
-    public static String getWebsiteTitle(){
+    public static String getWebsiteTitle() {
         return DriverManager.getDriver().getTitle();
     }
 
-    public static String getPageSource(){
+    public static String getPageSource() {
         return DriverManager.getDriver().getPageSource();
     }
 

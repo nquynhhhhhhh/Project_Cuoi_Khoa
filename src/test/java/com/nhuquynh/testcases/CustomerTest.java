@@ -16,9 +16,9 @@ public class CustomerTest extends BaseTest {
     CustomerPage customerPage;
 
     @BeforeMethod
-    public void getExcelData(){
+    public void getExcelData() {
         ExcelHelper excelHelper = new ExcelHelper();
-        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"),"Customer");
+        excelHelper.setExcelFile(PropertiesHelper.getValue("EXCEL_DATA_FILE_PATH"), "Customer");
     }
 
     @Test
