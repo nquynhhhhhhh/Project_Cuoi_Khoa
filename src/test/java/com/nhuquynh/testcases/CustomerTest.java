@@ -41,5 +41,15 @@ public class CustomerTest extends BaseTest {
         customerPage.setStatus();
     }
 
+    @Test
+    public void testAddCustomer_WithNullCompany(){
+        loginPage = new LoginPage();
+        dashboardPage = loginPage.loginCRM();
+        customerPage = dashboardPage.clickMenuCustomer();
+        customerPage.verifyNavigateToCustomerPage();
+        customerPage.clickButtonAddNewCustomer();
+        customerPage.submitData_WithNullCompany(3);
+    }
+
 
 }

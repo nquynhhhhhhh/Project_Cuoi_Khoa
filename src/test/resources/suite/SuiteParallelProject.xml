@@ -1,0 +1,12 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd" >
+
+<suite name="Suite Parallel Test Project" verbose="1">
+
+    <test name="Project Test" parallel="methods" thread-count="2">
+        <parameter name="browser" value="chrome"></parameter>
+        <classes>
+            <class name="com.nhuquynh.testcases.ProjectTest"/>
+        </classes>
+    </test>
+
+</suite>

@@ -2,9 +2,14 @@
 
 <suite name="Suite Full Flow" verbose="1">
 
-    <test name="Login Test with Chrome">
+    <test name="Test Full Flow">
         <parameter name="browser" value="chrome"></parameter>
         <classes>
+            <class name="com.nhuquynh.testcases.LoginTest">
+                <methods>
+                    <include name="testLoginSuccess"></include>
+                </methods>
+            </class>
             <class name="com.nhuquynh.testcases.CustomerTest">
                 <methods>
                     <include name="testAddNewCustomer"></include>
@@ -15,7 +20,12 @@
                     <include name="testAddNewProject"></include>
                 </methods>
             </class>
+            <class name="com.nhuquynh.testcases.TaskTest">
+                <methods>
+                    <include name="testAddNewTask_FromProjectPage"></include>
+                </methods>
+            </class>
+
         </classes>
     </test>
-
 </suite>

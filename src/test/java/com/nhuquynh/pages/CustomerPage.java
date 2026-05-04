@@ -125,7 +125,7 @@ public class CustomerPage extends BasePage {
         js.executeScript("arguments[0].scrollIntoView(true);", element);
         WebUI.clickElement(dropdownGroup);
         WebUI.setText(inputSearchGroup, excelHelper.getCellData("Groups", row));
-        WebUI.setText(inputSearchGroup, excelHelper.getCellData("Groups", row));
+        WebUI.clickElement(itemGroup(excelHelper.getCellData("Groups", row)));
         WebUI.clickElement(dropdownGroup);
         WebUI.sleep(1);
         WebUI.clickElement(dropdownCurrency);
@@ -142,11 +142,12 @@ public class CustomerPage extends BasePage {
         WebUI.setText(inputSearchCountry, excelHelper.getCellData("Country", row));
         WebUI.clickElement(itemCountry(excelHelper.getCellData("Country", row)));
         WebUI.clickElement(buttonSave);
+        WebUI.sleep(1);
+        WebUI.assertEquals(WebUI.getCurrentURL(), "https://crm.anhtester.com/admin/clients/client", "FAIL. Vẫn tạo Customer dù không đin Company");
+        WebUI.sleep(1);
         WebElement element2 = DriverManager.getDriver().findElement(labelCompany);
         js.executeScript("arguments[0].scrollIntoView(true);", element2);
         WebUI.assertEquals(WebUI.getElementText(errorCompany), "This field is required.", "The error company not match");
-        WebUI.sleep(1);
-        WebUI.assertEquals(WebUI.getCurrentURL(), "https://crm.anhtester.com/admin/clients/client", "FAIL. Vẫn tạo Customer dù không đin Company");
     }
 
     public void verifyNavigateToCustomerDetailPage() {

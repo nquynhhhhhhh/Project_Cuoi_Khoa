@@ -42,8 +42,6 @@ public class TaskTest extends BaseTest {
         taskPage = dashboardPage.clickMenuTask();
         taskPage.clickAddTask();
         taskPage.addTask_TaskPage(2);
-
-
     }
 
 

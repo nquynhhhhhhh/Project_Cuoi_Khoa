@@ -20,14 +20,14 @@ public class LoginTest extends BaseTest {
     }
 
     @Test(priority = 1)
-    public void loginSuccess() {
+    public void testLoginSuccess() {
         loginPage = new LoginPage();
         loginPage.loginCRMSuccessWithDataExcel();
         loginPage.verifyLoginSuccess();
     }
 
     @Test(priority = 2)
-    public void loginFailWithEmailInvalid() {
+    public void testLoginFailWithEmailInvalid() {
         CaptureHelper.startRecord("loginFailWithEmailInvalid");
 
         loginPage = new LoginPage();
@@ -36,7 +36,7 @@ public class LoginTest extends BaseTest {
     }
 
     @Test(priority = 3)
-    public void loginFailWithPassInvalid() {
+    public void testLoginFailWithPassInvalid() {
         CaptureHelper.startRecord("loginFailWithPassInvalid");
 
         loginPage = new LoginPage();
@@ -45,7 +45,7 @@ public class LoginTest extends BaseTest {
     }
 
     @Test(dataProvider = "data_provider_login_excel", dataProviderClass = DataProviderFactory.class)
-    public void loginSuccessFromDataProvider(String testcase, String email, String password) {
+    public void testLoginSuccessFromDataProvider(String testcase, String email, String password) {
         loginPage = new LoginPage();
         loginPage.loginCRMSuccessWithDataProvider(testcase, email, password);
         loginPage.verifyLoginSuccess();
